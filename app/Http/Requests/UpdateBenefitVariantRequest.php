@@ -21,6 +21,10 @@ class UpdateBenefitVariantRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'benefit_id' => [
+                'required',
+                'integer',
+            ],
             'description' => [
                 'string',
                 'nullable',

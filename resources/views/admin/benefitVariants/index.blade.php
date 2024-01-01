@@ -22,10 +22,13 @@
 
                     </th>
                     <th>
-                        {{ trans('cruds.benefitVariant.fields.id') }}
+                        {{ trans('cruds.benefitVariant.fields.picture') }}
                     </th>
                     <th>
                         {{ trans('cruds.benefitVariant.fields.name') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.benefitVariant.fields.benefit') }}
                     </th>
                     <th>
                         {{ trans('cruds.benefitVariant.fields.description') }}
@@ -38,15 +41,6 @@
                     </th>
                     <th>
                         {{ trans('cruds.benefitVariant.fields.end_date') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.benefitVariant.fields.satus') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.benefitVariant.fields.picture') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.benefitVariant.fields.benefit') }}
                     </th>
                     <th>
                         &nbsp;
@@ -104,19 +98,17 @@
     ajax: "{{ route('admin.benefit-variants.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
+{ data: 'picture', name: 'picture', sortable: false, searchable: false },
 { data: 'name', name: 'name' },
+{ data: 'benefit_name', name: 'benefit.name' },
 { data: 'description', name: 'description' },
 { data: 'credit_amount', name: 'credit_amount' },
 { data: 'start_date', name: 'start_date' },
 { data: 'end_date', name: 'end_date' },
-{ data: 'satus', name: 'satus' },
-{ data: 'picture', name: 'picture', sortable: false, searchable: false },
-{ data: 'benefit_name', name: 'benefit.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 2, 'asc' ]],
     pageLength: 100,
   };
   let table = $('.datatable-BenefitVariant').DataTable(dtOverrideGlobals);

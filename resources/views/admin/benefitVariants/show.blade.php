@@ -25,10 +25,30 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.benefitVariant.fields.picture') }}
+                        </th>
+                        <td>
+                            @if($benefitVariant->picture)
+                                <a href="{{ $benefitVariant->picture->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $benefitVariant->picture->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.benefitVariant.fields.name') }}
                         </th>
                         <td>
                             {{ $benefitVariant->name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.benefitVariant.fields.benefit') }}
+                        </th>
+                        <td>
+                            {{ $benefitVariant->benefit->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -69,26 +89,6 @@
                         </th>
                         <td>
                             {{ App\Models\BenefitVariant::SATUS_RADIO[$benefitVariant->satus] ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.benefitVariant.fields.picture') }}
-                        </th>
-                        <td>
-                            @if($benefitVariant->picture)
-                                <a href="{{ $benefitVariant->picture->getUrl() }}" target="_blank" style="display: inline-block">
-                                    <img src="{{ $benefitVariant->picture->getUrl('thumb') }}">
-                                </a>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.benefitVariant.fields.benefit') }}
-                        </th>
-                        <td>
-                            {{ $benefitVariant->benefit->name ?? '' }}
                         </td>
                     </tr>
                 </tbody>

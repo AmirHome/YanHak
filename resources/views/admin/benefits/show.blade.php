@@ -41,6 +41,22 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.benefit.fields.category') }}
+                        </th>
+                        <td>
+                            {{ $benefit->category->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.benefit.fields.benefit_company') }}
+                        </th>
+                        <td>
+                            {{ $benefit->benefit_company->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.benefit.fields.status') }}
                         </th>
                         <td>
@@ -69,22 +85,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.benefit.fields.end_date') }}
-                        </th>
-                        <td>
-                            {{ $benefit->end_date }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.benefit.fields.category') }}
-                        </th>
-                        <td>
-                            {{ $benefit->category->name ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.benefit.fields.variant') }}
                         </th>
                         <td>
@@ -95,10 +95,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.benefit.fields.benefit_company') }}
+                            {{ trans('cruds.benefit.fields.end_date') }}
                         </th>
                         <td>
-                            {{ $benefit->benefit_company->name ?? '' }}
+                            {{ $benefit->end_date }}
                         </td>
                     </tr>
                 </tbody>

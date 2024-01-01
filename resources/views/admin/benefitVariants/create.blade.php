@@ -10,6 +10,17 @@
         <form method="POST" action="{{ route("admin.benefit-variants.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
+                <label for="picture">{{ trans('cruds.benefitVariant.fields.picture') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('picture') ? 'is-invalid' : '' }}" id="picture-dropzone">
+                </div>
+                @if($errors->has('picture'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('picture') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.benefitVariant.fields.picture_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.benefitVariant.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                 @if($errors->has('name'))
@@ -18,6 +29,20 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.benefitVariant.fields.name_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="benefit_id">{{ trans('cruds.benefitVariant.fields.benefit') }}</label>
+                <select class="form-control select2 {{ $errors->has('benefit') ? 'is-invalid' : '' }}" name="benefit_id" id="benefit_id" required>
+                    @foreach($benefits as $id => $entry)
+                        <option value="{{ $id }}" {{ old('benefit_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('benefit'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('benefit') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.benefitVariant.fields.benefit_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.benefitVariant.fields.description') }}</label>
@@ -73,31 +98,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.benefitVariant.fields.satus_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="picture">{{ trans('cruds.benefitVariant.fields.picture') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('picture') ? 'is-invalid' : '' }}" id="picture-dropzone">
-                </div>
-                @if($errors->has('picture'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('picture') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.benefitVariant.fields.picture_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="benefit_id">{{ trans('cruds.benefitVariant.fields.benefit') }}</label>
-                <select class="form-control select2 {{ $errors->has('benefit') ? 'is-invalid' : '' }}" name="benefit_id" id="benefit_id">
-                    @foreach($benefits as $id => $entry)
-                        <option value="{{ $id }}" {{ old('benefit_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('benefit'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('benefit') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.benefitVariant.fields.benefit_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

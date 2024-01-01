@@ -22,13 +22,13 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.benefit.fields.id') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.benefit.fields.name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.benefit.fields.description') }}
+                            {{ trans('cruds.benefit.fields.category') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.benefit.fields.benefit_company') }}
                         </th>
                         <th>
                             {{ trans('cruds.benefit.fields.status') }}
@@ -40,16 +40,13 @@
                             {{ trans('cruds.benefit.fields.start_date') }}
                         </th>
                         <th>
-                            {{ trans('cruds.benefit.fields.end_date') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.benefit.fields.category') }}
+                            {{ trans('cruds.benefit.fields.team') }}
                         </th>
                         <th>
                             {{ trans('cruds.benefit.fields.variant') }}
                         </th>
                         <th>
-                            {{ trans('cruds.benefit.fields.benefit_company') }}
+                            {{ trans('cruds.benefit.fields.end_date') }}
                         </th>
                         <th>
                             &nbsp;
@@ -63,13 +60,13 @@
 
                             </td>
                             <td>
-                                {{ $benefit->id ?? '' }}
-                            </td>
-                            <td>
                                 {{ $benefit->name ?? '' }}
                             </td>
                             <td>
-                                {{ $benefit->description ?? '' }}
+                                {{ $benefit->category->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $benefit->benefit_company->name ?? '' }}
                             </td>
                             <td>
                                 {{ App\Models\Benefit::STATUS_RADIO[$benefit->status] ?? '' }}
@@ -85,10 +82,7 @@
                                 {{ $benefit->start_date ?? '' }}
                             </td>
                             <td>
-                                {{ $benefit->end_date ?? '' }}
-                            </td>
-                            <td>
-                                {{ $benefit->category->name ?? '' }}
+                                {{ $benefit->team->name ?? '' }}
                             </td>
                             <td>
                                 @foreach($benefit->variants as $key => $item)
@@ -96,7 +90,7 @@
                                 @endforeach
                             </td>
                             <td>
-                                {{ $benefit->benefit_company->name ?? '' }}
+                                {{ $benefit->end_date ?? '' }}
                             </td>
                             <td>
                                 @can('benefit_show')
@@ -166,7 +160,7 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 100,
   });
   let table = $('.datatable-categoryBenefits:not(.ajaxTable)').DataTable({ buttons: dtButtons })

@@ -23,9 +23,6 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.id') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.user.fields.name') }}
                         </th>
                         <th>
@@ -38,6 +35,9 @@
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <th>
+                            {{ trans('cruds.user.fields.team') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -47,9 +47,6 @@
                         <tr data-entry-id="{{ $user->id }}">
                             <td>
 
-                            </td>
-                            <td>
-                                {{ $user->id ?? '' }}
                             </td>
                             <td>
                                 {{ $user->name ?? '' }}
@@ -64,6 +61,9 @@
                                 @foreach($user->roles as $key => $item)
                                     <span class="badge badge-info">{{ $item->title }}</span>
                                 @endforeach
+                            </td>
+                            <td>
+                                {{ $user->team->name ?? '' }}
                             </td>
                             <td>
                                 @can('user_show')
@@ -136,7 +136,7 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 100,
   });
   let table = $('.datatable-User:not(.ajaxTable)').DataTable({ buttons: dtButtons })

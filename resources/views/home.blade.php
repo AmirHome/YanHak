@@ -70,13 +70,31 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="{{ $chart7->options['column_class'] }}">
-                            <h3>{!! $chart7->options['chart_title'] !!}</h3>
-                            {!! $chart7->renderHtml() !!}
+                        <div class="{{ $settings7['column_class'] }}">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body pb-0">
+                                    <div class="text-value">{{ number_format($settings7['total_number']) }}</div>
+                                    <div>{{ $settings7['chart_title'] }}</div>
+                                    <br />
+                                </div>
+                            </div>
                         </div>
-                        <div class="{{ $chart8->options['column_class'] }}">
-                            <h3>{!! $chart8->options['chart_title'] !!}</h3>
-                            {!! $chart8->renderHtml() !!}
+                        <div class="{{ $settings8['column_class'] }}">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body pb-0">
+                                    <div class="text-value">{{ number_format($settings8['total_number']) }}</div>
+                                    <div>{{ $settings8['chart_title'] }}</div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="{{ $chart9->options['column_class'] }}">
+                            <h3>{!! $chart9->options['chart_title'] !!}</h3>
+                            {!! $chart9->renderHtml() !!}
+                        </div>
+                        <div class="{{ $chart10->options['column_class'] }}">
+                            <h3>{!! $chart10->options['chart_title'] !!}</h3>
+                            {!! $chart10->renderHtml() !!}
                         </div>
                     </div>
                 </div>
@@ -87,5 +105,5 @@
 @endsection
 @section('scripts')
 @parent
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>{!! $chart7->renderJs() !!}{!! $chart8->renderJs() !!}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>{!! $chart9->renderJs() !!}{!! $chart10->renderJs() !!}
 @endsection

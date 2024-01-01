@@ -26,13 +26,13 @@
 
                     </th>
                     <th>
-                        {{ trans('cruds.benefit.fields.id') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.benefit.fields.name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.benefit.fields.description') }}
+                        {{ trans('cruds.benefit.fields.category') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.benefit.fields.benefit_company') }}
                     </th>
                     <th>
                         {{ trans('cruds.benefit.fields.status') }}
@@ -44,16 +44,13 @@
                         {{ trans('cruds.benefit.fields.start_date') }}
                     </th>
                     <th>
-                        {{ trans('cruds.benefit.fields.end_date') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.benefit.fields.category') }}
+                        {{ trans('cruds.benefit.fields.team') }}
                     </th>
                     <th>
                         {{ trans('cruds.benefit.fields.variant') }}
                     </th>
                     <th>
-                        {{ trans('cruds.benefit.fields.benefit_company') }}
+                        {{ trans('cruds.benefit.fields.end_date') }}
                     </th>
                     <th>
                         &nbsp;
@@ -111,20 +108,19 @@
     ajax: "{{ route('admin.benefits.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
-{ data: 'description', name: 'description' },
+{ data: 'category_name', name: 'category.name' },
+{ data: 'benefit_company_name', name: 'benefit_company.name' },
 { data: 'status', name: 'status' },
 { data: 'picture', name: 'picture', sortable: false, searchable: false },
 { data: 'start_date', name: 'start_date' },
-{ data: 'end_date', name: 'end_date' },
-{ data: 'category_name', name: 'category.name' },
+{ data: 'team_name', name: 'team.name' },
 { data: 'variant', name: 'variants.name' },
-{ data: 'benefit_company_name', name: 'benefit_company.name' },
+{ data: 'end_date', name: 'end_date' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 100,
   };
   let table = $('.datatable-Benefit').DataTable(dtOverrideGlobals);

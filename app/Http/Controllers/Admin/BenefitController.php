@@ -11,7 +11,6 @@ use App\Http\Requests\UpdateBenefitRequest;
 use App\Models\Benefit;
 use App\Models\BenefitCategory;
 use App\Models\BenefitCompany;
-use App\Models\BenefitVariant;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -27,7 +26,7 @@ class BenefitController extends Controller
         abort_if(Gate::denies('benefit_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Benefit::with(['category', 'variants', 'benefit_company', 'team'])->select(sprintf('%s.*', (new Benefit)->table));
+            $query = Benefit::with(['category', 'benefit_company', 'team', 'variants'])->select(sprintf('%s.*', (new Benefit)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -48,15 +47,17 @@ class BenefitController extends Controller
                 ));
             });
 
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
-            $table->editColumn('description', function ($row) {
-                return $row->description ? $row->description : '';
+            $table->addColumn('category_name', function ($row) {
+                return $row->category ? $row->category->name : '';
             });
+
+            $table->addColumn('benefit_company_name', function ($row) {
+                return $row->benefit_company ? $row->benefit_company->name : '';
+            });
+
             $table->editColumn('status', function ($row) {
                 return $row->status ? Benefit::STATUS_RADIO[$row->status] : '';
             });
@@ -72,8 +73,8 @@ class BenefitController extends Controller
                 return '';
             });
 
-            $table->addColumn('category_name', function ($row) {
-                return $row->category ? $row->category->name : '';
+            $table->addColumn('team_name', function ($row) {
+                return $row->team ? $row->team->name : '';
             });
 
             $table->editColumn('variant', function ($row) {
@@ -84,11 +85,8 @@ class BenefitController extends Controller
 
                 return implode(' ', $labels);
             });
-            $table->addColumn('benefit_company_name', function ($row) {
-                return $row->benefit_company ? $row->benefit_company->name : '';
-            });
 
-            $table->rawColumns(['actions', 'placeholder', 'picture', 'category', 'variant', 'benefit_company']);
+            $table->rawColumns(['actions', 'placeholder', 'category', 'benefit_company', 'picture', 'team', 'variant']);
 
             return $table->make(true);
         }
@@ -102,17 +100,15 @@ class BenefitController extends Controller
 
         $categories = BenefitCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $variants = BenefitVariant::pluck('name', 'id');
-
         $benefit_companies = BenefitCompany::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.benefits.create', compact('benefit_companies', 'categories', 'variants'));
+        return view('admin.benefits.create', compact('benefit_companies', 'categories'));
     }
 
     public function store(StoreBenefitRequest $request)
     {
         $benefit = Benefit::create($request->all());
-        $benefit->variants()->sync($request->input('variants', []));
+
         if ($request->input('picture', false)) {
             $benefit->addMedia(storage_path('tmp/uploads/' . basename($request->input('picture'))))->toMediaCollection('picture');
         }
@@ -130,19 +126,17 @@ class BenefitController extends Controller
 
         $categories = BenefitCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $variants = BenefitVariant::pluck('name', 'id');
-
         $benefit_companies = BenefitCompany::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $benefit->load('category', 'variants', 'benefit_company', 'team');
+        $benefit->load('category', 'benefit_company', 'team', 'variants');
 
-        return view('admin.benefits.edit', compact('benefit', 'benefit_companies', 'categories', 'variants'));
+        return view('admin.benefits.edit', compact('benefit', 'benefit_companies', 'categories'));
     }
 
     public function update(UpdateBenefitRequest $request, Benefit $benefit)
     {
         $benefit->update($request->all());
-        $benefit->variants()->sync($request->input('variants', []));
+
         if ($request->input('picture', false)) {
             if (! $benefit->picture || $request->input('picture') !== $benefit->picture->file_name) {
                 if ($benefit->picture) {
@@ -161,7 +155,7 @@ class BenefitController extends Controller
     {
         abort_if(Gate::denies('benefit_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $benefit->load('category', 'variants', 'benefit_company', 'team', 'benefitBenefitVariants');
+        $benefit->load('category', 'benefit_company', 'team', 'variants', 'benefitBenefitVariants');
 
         return view('admin.benefits.show', compact('benefit'));
     }

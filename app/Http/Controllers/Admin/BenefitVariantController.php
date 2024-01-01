@@ -45,22 +45,6 @@ class BenefitVariantController extends Controller
                 ));
             });
 
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
-            });
-            $table->editColumn('description', function ($row) {
-                return $row->description ? $row->description : '';
-            });
-            $table->editColumn('credit_amount', function ($row) {
-                return $row->credit_amount ? $row->credit_amount : '';
-            });
-
-            $table->editColumn('satus', function ($row) {
-                return $row->satus ? BenefitVariant::SATUS_RADIO[$row->satus] : '';
-            });
             $table->editColumn('picture', function ($row) {
                 if ($photo = $row->picture) {
                     return sprintf(
@@ -72,8 +56,18 @@ class BenefitVariantController extends Controller
 
                 return '';
             });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
             $table->addColumn('benefit_name', function ($row) {
                 return $row->benefit ? $row->benefit->name : '';
+            });
+
+            $table->editColumn('description', function ($row) {
+                return $row->description ? $row->description : '';
+            });
+            $table->editColumn('credit_amount', function ($row) {
+                return $row->credit_amount ? $row->credit_amount : '';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'picture', 'benefit']);

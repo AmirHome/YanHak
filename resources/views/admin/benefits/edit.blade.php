@@ -31,6 +31,34 @@
                 <span class="help-block">{{ trans('cruds.benefit.fields.description_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="category_id">{{ trans('cruds.benefit.fields.category') }}</label>
+                <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id" required>
+                    @foreach($categories as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $benefit->category->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('category'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('category') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.benefit.fields.category_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="benefit_company_id">{{ trans('cruds.benefit.fields.benefit_company') }}</label>
+                <select class="form-control select2 {{ $errors->has('benefit_company') ? 'is-invalid' : '' }}" name="benefit_company_id" id="benefit_company_id" required>
+                    @foreach($benefit_companies as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('benefit_company_id') ? old('benefit_company_id') : $benefit->benefit_company->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('benefit_company'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('benefit_company') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.benefit.fields.benefit_company_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required">{{ trans('cruds.benefit.fields.status') }}</label>
                 @foreach(App\Models\Benefit::STATUS_RADIO as $key => $label)
                     <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">
@@ -75,52 +103,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.benefit.fields.end_date_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="category_id">{{ trans('cruds.benefit.fields.category') }}</label>
-                <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
-                    @foreach($categories as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $benefit->category->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('category'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('category') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.benefit.fields.category_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="variants">{{ trans('cruds.benefit.fields.variant') }}</label>
-                <div style="padding-bottom: 4px">
-                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                </div>
-                <select class="form-control select2 {{ $errors->has('variants') ? 'is-invalid' : '' }}" name="variants[]" id="variants" multiple>
-                    @foreach($variants as $id => $variant)
-                        <option value="{{ $id }}" {{ (in_array($id, old('variants', [])) || $benefit->variants->contains($id)) ? 'selected' : '' }}>{{ $variant }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('variants'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('variants') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.benefit.fields.variant_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="benefit_company_id">{{ trans('cruds.benefit.fields.benefit_company') }}</label>
-                <select class="form-control select2 {{ $errors->has('benefit_company') ? 'is-invalid' : '' }}" name="benefit_company_id" id="benefit_company_id">
-                    @foreach($benefit_companies as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('benefit_company_id') ? old('benefit_company_id') : $benefit->benefit_company->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('benefit_company'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('benefit_company') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.benefit.fields.benefit_company_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

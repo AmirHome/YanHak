@@ -25,6 +25,14 @@ class StoreBenefitRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'category_id' => [
+                'required',
+                'integer',
+            ],
+            'benefit_company_id' => [
+                'required',
+                'integer',
+            ],
             'status' => [
                 'required',
             ],
@@ -35,12 +43,6 @@ class StoreBenefitRequest extends FormRequest
             'end_date' => [
                 'date_format:' . config('panel.date_format'),
                 'nullable',
-            ],
-            'variants.*' => [
-                'integer',
-            ],
-            'variants' => [
-                'array',
             ],
         ];
     }

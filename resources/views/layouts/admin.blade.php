@@ -39,8 +39,6 @@
                 <i class="fas fa-fw fa-bars"></i>
             </button>
 
-            <img src="{{ asset('images/logo.svg') }}" alt="logo"  style="margin-left: 10px;">
-
             <ul class="c-header-nav ml-auto">
                 @if(count(config('panel.available_languages', [])) > 1)
                     <li class="c-header-nav-item dropdown d-md-down-none">

@@ -22,10 +22,13 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.benefitVariant.fields.id') }}
+                            {{ trans('cruds.benefitVariant.fields.picture') }}
                         </th>
                         <th>
                             {{ trans('cruds.benefitVariant.fields.name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.benefitVariant.fields.benefit') }}
                         </th>
                         <th>
                             {{ trans('cruds.benefitVariant.fields.description') }}
@@ -40,15 +43,6 @@
                             {{ trans('cruds.benefitVariant.fields.end_date') }}
                         </th>
                         <th>
-                            {{ trans('cruds.benefitVariant.fields.satus') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.benefitVariant.fields.picture') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.benefitVariant.fields.benefit') }}
-                        </th>
-                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -60,10 +54,17 @@
 
                             </td>
                             <td>
-                                {{ $benefitVariant->id ?? '' }}
+                                @if($benefitVariant->picture)
+                                    <a href="{{ $benefitVariant->picture->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $benefitVariant->picture->getUrl('thumb') }}">
+                                    </a>
+                                @endif
                             </td>
                             <td>
                                 {{ $benefitVariant->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $benefitVariant->benefit->name ?? '' }}
                             </td>
                             <td>
                                 {{ $benefitVariant->description ?? '' }}
@@ -76,19 +77,6 @@
                             </td>
                             <td>
                                 {{ $benefitVariant->end_date ?? '' }}
-                            </td>
-                            <td>
-                                {{ App\Models\BenefitVariant::SATUS_RADIO[$benefitVariant->satus] ?? '' }}
-                            </td>
-                            <td>
-                                @if($benefitVariant->picture)
-                                    <a href="{{ $benefitVariant->picture->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $benefitVariant->picture->getUrl('thumb') }}">
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                {{ $benefitVariant->benefit->name ?? '' }}
                             </td>
                             <td>
                                 @can('benefit_variant_show')
@@ -158,7 +146,7 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 2, 'asc' ]],
     pageLength: 100,
   });
   let table = $('.datatable-benefitBenefitVariants:not(.ajaxTable)').DataTable({ buttons: dtButtons })

@@ -22,9 +22,6 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.benefitPackage.fields.id') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.benefitPackage.fields.title') }}
                         </th>
                         <th>
@@ -52,9 +49,6 @@
                         <tr data-entry-id="{{ $benefitPackage->id }}">
                             <td>
 
-                            </td>
-                            <td>
-                                {{ $benefitPackage->id ?? '' }}
                             </td>
                             <td>
                                 {{ $benefitPackage->title ?? '' }}
@@ -148,7 +142,7 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 100,
   });
   let table = $('.datatable-benefitBenefitPackages:not(.ajaxTable)').DataTable({ buttons: dtButtons })

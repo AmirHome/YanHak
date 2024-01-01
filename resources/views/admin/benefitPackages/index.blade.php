@@ -26,9 +26,6 @@
 
                     </th>
                     <th>
-                        {{ trans('cruds.benefitPackage.fields.id') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.benefitPackage.fields.title') }}
                     </th>
                     <th>
@@ -102,7 +99,6 @@
     ajax: "{{ route('admin.benefit-packages.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
 { data: 'title', name: 'title' },
 { data: 'description', name: 'description' },
 { data: 'picture', name: 'picture', sortable: false, searchable: false },
@@ -112,7 +108,7 @@
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 100,
   };
   let table = $('.datatable-BenefitPackage').DataTable(dtOverrideGlobals);

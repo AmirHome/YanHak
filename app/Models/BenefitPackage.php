@@ -20,6 +20,10 @@ class BenefitPackage extends Model implements HasMedia
         'picture',
     ];
 
+    public static $searchable = [
+        'title',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',

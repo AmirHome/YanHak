@@ -56,7 +56,7 @@ class HomeController
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'd/m/Y',
-            'column_class'          => 'col-md-4',
+            'column_class'          => 'col-md-3',
             'entries_number'        => '5',
             'translation_key'       => 'benefit',
         ];
@@ -85,7 +85,7 @@ class HomeController
         }
 
         $settings3 = [
-            'chart_title'           => 'Total Benefit Options',
+            'chart_title'           => 'Benefit Options',
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\BenefitVariant',
@@ -94,7 +94,7 @@ class HomeController
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'd/m/Y',
-            'column_class'          => 'col-md-4',
+            'column_class'          => 'col-md-3',
             'entries_number'        => '5',
             'translation_key'       => 'benefitVariant',
         ];
@@ -132,7 +132,7 @@ class HomeController
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'd/m/Y H:i:s',
-            'column_class'          => 'col-md-4',
+            'column_class'          => 'col-md-3',
             'entries_number'        => '5',
             'translation_key'       => 'benefitPackage',
         ];
@@ -161,7 +161,7 @@ class HomeController
         }
 
         $settings5 = [
-            'chart_title'           => 'Total Benfit Company',
+            'chart_title'           => 'Vendors',
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\BenefitCompany',
@@ -170,7 +170,7 @@ class HomeController
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'd/m/Y',
-            'column_class'          => 'col-md-4',
+            'column_class'          => 'col-md-3',
             'entries_number'        => '5',
             'translation_key'       => 'benefitCompany',
         ];
@@ -199,19 +199,18 @@ class HomeController
         }
 
         $settings6 = [
-            'chart_title'           => 'Avaiable Employee Credits',
+            'chart_title'           => 'Categories',
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\Employee',
-            'group_by_field'        => 'birthday',
+            'model'                 => 'App\Models\BenefitCategory',
+            'group_by_field'        => 'created_at',
             'group_by_period'       => 'day',
-            'aggregate_function'    => 'sum',
-            'aggregate_field'       => 'yearly_credit',
+            'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
-            'group_by_field_format' => 'd/m/Y',
-            'column_class'          => 'col-md-4',
+            'group_by_field_format' => 'd/m/Y H:i:s',
+            'column_class'          => 'col-md-3',
             'entries_number'        => '5',
-            'translation_key'       => 'employee',
+            'translation_key'       => 'benefitCategory',
         ];
 
         $settings6['total_number'] = 0;
@@ -238,27 +237,88 @@ class HomeController
         }
 
         $settings7 = [
-            'chart_title'           => 'Benefit Categories',
-            'chart_type'            => 'pie',
+            'chart_title'           => 'Avg. Credit of Employees',
+            'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\BenefitCategory',
-            'group_by_field'        => 'created_at',
-            'group_by_period'       => 'month',
-            'aggregate_function'    => 'count',
+            'model'                 => 'App\Models\Employee',
+            'group_by_field'        => 'birthday',
+            'group_by_period'       => 'day',
+            'aggregate_function'    => 'avg',
+            'aggregate_field'       => 'yearly_credit',
             'filter_field'          => 'created_at',
-            'group_by_field_format' => 'd/m/Y H:i:s',
-            'column_class'          => 'col-md-6',
+            'group_by_field_format' => 'd/m/Y',
+            'column_class'          => 'col-md-3',
             'entries_number'        => '5',
-            'translation_key'       => 'benefitCategory',
+            'translation_key'       => 'employee',
         ];
 
-        $chart7 = new LaravelChart($settings7);
+        $settings7['total_number'] = 0;
+        if (class_exists($settings7['model'])) {
+            $settings7['total_number'] = $settings7['model']::when(isset($settings7['filter_field']), function ($query) use ($settings7) {
+                if (isset($settings7['filter_days'])) {
+                    return $query->where($settings7['filter_field'], '>=',
+                        now()->subDays($settings7['filter_days'])->format('Y-m-d'));
+                } elseif (isset($settings7['filter_period'])) {
+                    switch ($settings7['filter_period']) {
+                        case 'week': $start = date('Y-m-d', strtotime('last Monday'));
+                        break;
+                        case 'month': $start = date('Y-m') . '-01';
+                        break;
+                        case 'year': $start = date('Y') . '-01-01';
+                        break;
+                    }
+                    if (isset($start)) {
+                        return $query->where($settings7['filter_field'], '>=', $start);
+                    }
+                }
+            })
+                ->{$settings7['aggregate_function'] ?? 'count'}($settings7['aggregate_field'] ?? '*');
+        }
 
         $settings8 = [
-            'chart_title'           => 'Changes is Benefit Options',
+            'chart_title'           => 'Avaliable Employee Credit',
+            'chart_type'            => 'number_block',
+            'report_type'           => 'group_by_date',
+            'model'                 => 'App\Models\Employee',
+            'group_by_field'        => 'birthday',
+            'group_by_period'       => 'day',
+            'aggregate_function'    => 'sum',
+            'aggregate_field'       => 'yearly_credit',
+            'filter_field'          => 'created_at',
+            'group_by_field_format' => 'd/m/Y',
+            'column_class'          => 'col-md-3',
+            'entries_number'        => '5',
+            'translation_key'       => 'employee',
+        ];
+
+        $settings8['total_number'] = 0;
+        if (class_exists($settings8['model'])) {
+            $settings8['total_number'] = $settings8['model']::when(isset($settings8['filter_field']), function ($query) use ($settings8) {
+                if (isset($settings8['filter_days'])) {
+                    return $query->where($settings8['filter_field'], '>=',
+                        now()->subDays($settings8['filter_days'])->format('Y-m-d'));
+                } elseif (isset($settings8['filter_period'])) {
+                    switch ($settings8['filter_period']) {
+                        case 'week': $start = date('Y-m-d', strtotime('last Monday'));
+                        break;
+                        case 'month': $start = date('Y-m') . '-01';
+                        break;
+                        case 'year': $start = date('Y') . '-01-01';
+                        break;
+                    }
+                    if (isset($start)) {
+                        return $query->where($settings8['filter_field'], '>=', $start);
+                    }
+                }
+            })
+                ->{$settings8['aggregate_function'] ?? 'count'}($settings8['aggregate_field'] ?? '*');
+        }
+
+        $settings9 = [
+            'chart_title'           => 'Benefit Options',
             'chart_type'            => 'line',
             'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\BenefitPackage',
+            'model'                 => 'App\Models\BenefitVariant',
             'group_by_field'        => 'created_at',
             'group_by_period'       => 'week',
             'aggregate_function'    => 'count',
@@ -266,11 +326,28 @@ class HomeController
             'group_by_field_format' => 'd/m/Y H:i:s',
             'column_class'          => 'col-md-6',
             'entries_number'        => '5',
-            'translation_key'       => 'benefitPackage',
+            'translation_key'       => 'benefitVariant',
         ];
 
-        $chart8 = new LaravelChart($settings8);
+        $chart9 = new LaravelChart($settings9);
 
-        return view('home', compact('chart7', 'chart8', 'settings1', 'settings2', 'settings3', 'settings4', 'settings5', 'settings6'));
+        $settings10 = [
+            'chart_title'           => 'Employees',
+            'chart_type'            => 'line',
+            'report_type'           => 'group_by_date',
+            'model'                 => 'App\Models\Employee',
+            'group_by_field'        => 'created_at',
+            'group_by_period'       => 'week',
+            'aggregate_function'    => 'count',
+            'filter_field'          => 'created_at',
+            'group_by_field_format' => 'd/m/Y H:i:s',
+            'column_class'          => 'col-md-6',
+            'entries_number'        => '5',
+            'translation_key'       => 'employee',
+        ];
+
+        $chart10 = new LaravelChart($settings10);
+
+        return view('home', compact('chart10', 'chart9', 'settings1', 'settings2', 'settings3', 'settings4', 'settings5', 'settings6', 'settings7', 'settings8'));
     }
 }

@@ -21,6 +21,10 @@ class Benefit extends Model implements HasMedia
         'picture',
     ];
 
+    public static $searchable = [
+        'name',
+    ];
+
     public const STATUS_RADIO = [
         'Active'  => 'Active',
         'Passive' => 'Passive',
@@ -37,15 +41,15 @@ class Benefit extends Model implements HasMedia
     protected $fillable = [
         'name',
         'description',
-        'status',
-        'start_date',
-        'end_date',
-        'created_at',
         'category_id',
         'benefit_company_id',
+        'status',
+        'start_date',
+        'team_id',
+        'end_date',
+        'created_at',
         'updated_at',
         'deleted_at',
-        'team_id',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -62,6 +66,16 @@ class Benefit extends Model implements HasMedia
     public function benefitBenefitVariants()
     {
         return $this->hasMany(BenefitVariant::class, 'benefit_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(BenefitCategory::class, 'category_id');
+    }
+
+    public function benefit_company()
+    {
+        return $this->belongsTo(BenefitCompany::class, 'benefit_company_id');
     }
 
     public function getPictureAttribute()
@@ -86,6 +100,16 @@ class Benefit extends Model implements HasMedia
         $this->attributes['start_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
+
+    public function variants()
+    {
+        return $this->belongsToMany(BenefitVariant::class);
+    }
+
     public function getEndDateAttribute($value)
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
@@ -94,25 +118,5 @@ class Benefit extends Model implements HasMedia
     public function setEndDateAttribute($value)
     {
         $this->attributes['end_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(BenefitCategory::class, 'category_id');
-    }
-
-    public function variants()
-    {
-        return $this->belongsToMany(BenefitVariant::class);
-    }
-
-    public function benefit_company()
-    {
-        return $this->belongsTo(BenefitCompany::class, 'benefit_company_id');
-    }
-
-    public function team()
-    {
-        return $this->belongsTo(Team::class, 'team_id');
     }
 }

@@ -22,9 +22,6 @@
 
                     </th>
                     <th>
-                        {{ trans('cruds.userAlert.fields.id') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.userAlert.fields.alert_text') }}
                     </th>
                     <th>
@@ -92,7 +89,6 @@
     ajax: "{{ route('admin.user-alerts.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
 { data: 'alert_text', name: 'alert_text' },
 { data: 'alert_link', name: 'alert_link' },
 { data: 'user', name: 'users.name' },

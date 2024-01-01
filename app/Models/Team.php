@@ -25,6 +25,12 @@ class Team extends Model implements HasMedia
         'deleted_at',
     ];
 
+    public static $searchable = [
+        'name',
+        'primary_contact',
+        'contact_email',
+    ];
+
     protected $fillable = [
         'created_at',
         'name',

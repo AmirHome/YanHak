@@ -22,9 +22,6 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.userAlert.fields.id') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.userAlert.fields.alert_text') }}
                         </th>
                         <th>
@@ -46,9 +43,6 @@
                         <tr data-entry-id="{{ $userAlert->id }}">
                             <td>
 
-                            </td>
-                            <td>
-                                {{ $userAlert->id ?? '' }}
                             </td>
                             <td>
                                 {{ $userAlert->alert_text ?? '' }}

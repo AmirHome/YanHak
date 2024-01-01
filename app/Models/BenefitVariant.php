@@ -21,6 +21,10 @@ class BenefitVariant extends Model implements HasMedia
         'picture',
     ];
 
+    public static $searchable = [
+        'name',
+    ];
+
     public const SATUS_RADIO = [
         'Active'  => 'Active',
         'Passive' => 'Passive',
@@ -36,13 +40,13 @@ class BenefitVariant extends Model implements HasMedia
 
     protected $fillable = [
         'name',
+        'benefit_id',
         'description',
         'credit_amount',
         'start_date',
         'end_date',
         'satus',
         'created_at',
-        'benefit_id',
         'updated_at',
         'deleted_at',
         'team_id',
@@ -74,6 +78,23 @@ class BenefitVariant extends Model implements HasMedia
         return $this->belongsToMany(BenefitPackage::class);
     }
 
+    public function getPictureAttribute()
+    {
+        $file = $this->getMedia('picture')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
+
+        return $file;
+    }
+
+    public function benefit()
+    {
+        return $this->belongsTo(Benefit::class, 'benefit_id');
+    }
+
     public function getStartDateAttribute($value)
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
@@ -92,23 +113,6 @@ class BenefitVariant extends Model implements HasMedia
     public function setEndDateAttribute($value)
     {
         $this->attributes['end_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
-    }
-
-    public function getPictureAttribute()
-    {
-        $file = $this->getMedia('picture')->last();
-        if ($file) {
-            $file->url       = $file->getUrl();
-            $file->thumbnail = $file->getUrl('thumb');
-            $file->preview   = $file->getUrl('preview');
-        }
-
-        return $file;
-    }
-
-    public function benefit()
-    {
-        return $this->belongsTo(Benefit::class, 'benefit_id');
     }
 
     public function team()

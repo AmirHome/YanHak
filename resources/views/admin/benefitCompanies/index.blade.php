@@ -26,9 +26,6 @@
 
                     </th>
                     <th>
-                        {{ trans('cruds.benefitCompany.fields.id') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.benefitCompany.fields.name') }}
                     </th>
                     <th>
@@ -39,6 +36,9 @@
                     </th>
                     <th>
                         {{ trans('cruds.benefitCompany.fields.contact') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.benefitCompany.fields.contact_email') }}
                     </th>
                     <th>
                         {{ trans('cruds.benefitCompany.fields.register_date') }}
@@ -102,17 +102,17 @@
     ajax: "{{ route('admin.benefit-companies.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'email', name: 'email' },
 { data: 'web_site', name: 'web_site' },
 { data: 'contact', name: 'contact' },
+{ data: 'contact_email', name: 'contact_email' },
 { data: 'register_date', name: 'register_date' },
 { data: 'country', name: 'country' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 100,
   };
   let table = $('.datatable-BenefitCompany').DataTable(dtOverrideGlobals);

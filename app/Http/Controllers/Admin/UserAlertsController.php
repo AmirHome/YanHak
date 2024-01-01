@@ -41,9 +41,6 @@ class UserAlertsController extends Controller
                 ));
             });
 
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
             $table->editColumn('alert_text', function ($row) {
                 return $row->alert_text ? $row->alert_text : '';
             });

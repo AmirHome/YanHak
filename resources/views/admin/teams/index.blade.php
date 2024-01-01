@@ -26,9 +26,6 @@
 
                     </th>
                     <th>
-                        {{ trans('cruds.team.fields.id') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.team.fields.name') }}
                     </th>
                     <th>
@@ -41,7 +38,7 @@
                         {{ trans('cruds.team.fields.primary_contact') }}
                     </th>
                     <th>
-                        {{ trans('cruds.team.fields.email') }}
+                        {{ trans('cruds.team.fields.contact_email') }}
                     </th>
                     <th>
                         {{ trans('cruds.team.fields.country') }}
@@ -102,17 +99,16 @@
     ajax: "{{ route('admin.teams.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'logo', name: 'logo', sortable: false, searchable: false },
 { data: 'web_site', name: 'web_site' },
 { data: 'primary_contact', name: 'primary_contact' },
-{ data: 'email', name: 'email' },
+{ data: 'contact_email', name: 'contact_email' },
 { data: 'country', name: 'country' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 100,
   };
   let table = $('.datatable-Team').DataTable(dtOverrideGlobals);

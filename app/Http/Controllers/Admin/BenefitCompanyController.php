@@ -43,9 +43,6 @@ class BenefitCompanyController extends Controller
                 ));
             });
 
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
@@ -57,6 +54,9 @@ class BenefitCompanyController extends Controller
             });
             $table->editColumn('contact', function ($row) {
                 return $row->contact ? $row->contact : '';
+            });
+            $table->editColumn('contact_email', function ($row) {
+                return $row->contact_email ? $row->contact_email : '';
             });
 
             $table->editColumn('country', function ($row) {

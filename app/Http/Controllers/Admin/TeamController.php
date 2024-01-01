@@ -45,9 +45,6 @@ class TeamController extends Controller
                 ));
             });
 
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
@@ -68,8 +65,8 @@ class TeamController extends Controller
             $table->editColumn('primary_contact', function ($row) {
                 return $row->primary_contact ? $row->primary_contact : '';
             });
-            $table->editColumn('email', function ($row) {
-                return $row->email ? $row->email : '';
+            $table->editColumn('contact_email', function ($row) {
+                return $row->contact_email ? $row->contact_email : '';
             });
             $table->editColumn('country', function ($row) {
                 return $row->country ? $row->country : '';

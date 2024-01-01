@@ -7,6 +7,7 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyTeamRequest;
 use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
+use App\Models\Country;
 use App\Models\Team;
 use Gate;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class TeamController extends Controller
         abort_if(Gate::denies('team_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Team::with(['owner'])->select(sprintf('%s.*', (new Team)->table));
+            $query = Team::with(['country', 'owner'])->select(sprintf('%s.*', (new Team)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -79,6 +80,10 @@ class TeamController extends Controller
 
                 return '';
             });
+            $table->addColumn('country_name', function ($row) {
+                return $row->country ? $row->country->name : '';
+            });
+
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
@@ -86,7 +91,7 @@ class TeamController extends Controller
                 return $row->owner ? $row->owner->name : '';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'logo', 'owner']);
+            $table->rawColumns(['actions', 'placeholder', 'logo', 'country', 'owner']);
 
             return $table->make(true);
         }
@@ -98,7 +103,9 @@ class TeamController extends Controller
     {
         abort_if(Gate::denies('team_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.teams.create');
+        $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.teams.create', compact('countries'));
     }
 
     public function store(StoreTeamRequest $request)
@@ -122,9 +129,11 @@ class TeamController extends Controller
     {
         abort_if(Gate::denies('team_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $team->load('owner');
+        $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.teams.edit', compact('team'));
+        $team->load('country', 'owner');
+
+        return view('admin.teams.edit', compact('countries', 'team'));
     }
 
     public function update(UpdateTeamRequest $request, Team $team)
@@ -149,7 +158,7 @@ class TeamController extends Controller
     {
         abort_if(Gate::denies('team_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $team->load('owner');
+        $team->load('country', 'owner');
 
         return view('admin.teams.show', compact('team'));
     }

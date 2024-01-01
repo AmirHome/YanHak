@@ -216,6 +216,26 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 52,
+                'title' => 'variant_create',
+            ],
+            [
+                'id'    => 53,
+                'title' => 'variant_edit',
+            ],
+            [
+                'id'    => 54,
+                'title' => 'variant_show',
+            ],
+            [
+                'id'    => 55,
+                'title' => 'variant_delete',
+            ],
+            [
+                'id'    => 56,
+                'title' => 'variant_access',
+            ],
+            [
+                'id'    => 57,
                 'title' => 'profile_password_edit',
             ],
         ];

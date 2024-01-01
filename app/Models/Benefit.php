@@ -59,6 +59,11 @@ class Benefit extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
+    public function benefitVariants()
+    {
+        return $this->hasMany(Variant::class, 'benefit_id', 'id');
+    }
+
     public function benefitEmployees()
     {
         return $this->belongsToMany(Employee::class);

@@ -141,7 +141,7 @@ class BenefitController extends Controller
     {
         abort_if(Gate::denies('benefit_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $benefit->load('category', 'team', 'benefitEmployees');
+        $benefit->load('category', 'team', 'benefitVariants', 'benefitEmployees');
 
         return view('admin.benefits.show', compact('benefit'));
     }

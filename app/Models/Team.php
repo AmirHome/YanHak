@@ -35,6 +35,7 @@ class Team extends Model implements HasMedia
         'phone',
         'email',
         'primary_contact',
+        'country_id',
         'deleted_at',
         'name',
         'owner_id',
@@ -61,6 +62,11 @@ class Team extends Model implements HasMedia
         }
 
         return $file;
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id');
     }
 
     public function owner()

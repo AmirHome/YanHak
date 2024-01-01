@@ -107,6 +107,16 @@
                 </a>
             </li>
         @endcan
+        @can('variant_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.variants.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/variants") || request()->is("admin/variants/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.variant.title') }}
+                </a>
+            </li>
+        @endcan
         @can('employee_access')
             <li class="c-sidebar-nav-item">
                 <a href="{{ route("admin.employees.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/employees") || request()->is("admin/employees/*") ? "c-active" : "" }}">

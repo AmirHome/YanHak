@@ -61,6 +61,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('reports/destroy', 'ReportController@massDestroy')->name('reports.massDestroy');
     Route::resource('reports', 'ReportController');
 
+    // Variant
+    Route::delete('variants/destroy', 'VariantController@massDestroy')->name('variants.massDestroy');
+    Route::resource('variants', 'VariantController');
+
     Route::get('team-members', 'TeamMembersController@index')->name('team-members.index');
     Route::post('team-members', 'TeamMembersController@invite')->name('team-members.invite');
 });

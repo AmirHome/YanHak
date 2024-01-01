@@ -18,4 +18,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Province
     Route::apiResource('provinces', 'ProvinceApiController');
+
+    // Variant
+    Route::apiResource('variants', 'VariantApiController');
 });

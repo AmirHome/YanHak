@@ -11,18 +11,18 @@
             @method('PUT')
             @csrf
             <div class="form-group">
-                <label class="required" for="title">{{ trans('cruds.benefit.fields.title') }}</label>
-                <input class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text" name="title" id="title" value="{{ old('title', $benefit->title) }}" required>
-                @if($errors->has('title'))
+                <label class="required" for="name">{{ trans('cruds.benefit.fields.name') }}</label>
+                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $benefit->name) }}" required>
+                @if($errors->has('name'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('title') }}
+                        {{ $errors->first('name') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.benefit.fields.title_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.benefit.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.benefit.fields.description') }}</label>
-                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $benefit->description) }}</textarea>
+                <input class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" type="text" name="description" id="description" value="{{ old('description', $benefit->description) }}">
                 @if($errors->has('description'))
                     <div class="invalid-feedback">
                         {{ $errors->first('description') }}
@@ -31,14 +31,19 @@
                 <span class="help-block">{{ trans('cruds.benefit.fields.description_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="credit_amount">{{ trans('cruds.benefit.fields.credit_amount') }}</label>
-                <input class="form-control {{ $errors->has('credit_amount') ? 'is-invalid' : '' }}" type="number" name="credit_amount" id="credit_amount" value="{{ old('credit_amount', $benefit->credit_amount) }}" step="0.01">
-                @if($errors->has('credit_amount'))
+                <label class="required">{{ trans('cruds.benefit.fields.status') }}</label>
+                @foreach(App\Models\Benefit::STATUS_RADIO as $key => $label)
+                    <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">
+                        <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status" value="{{ $key }}" {{ old('status', $benefit->status) === (string) $key ? 'checked' : '' }} required>
+                        <label class="form-check-label" for="status_{{ $key }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+                @if($errors->has('status'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('credit_amount') }}
+                        {{ $errors->first('status') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.benefit.fields.credit_amount_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.benefit.fields.status_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="picture">{{ trans('cruds.benefit.fields.picture') }}</label>
@@ -52,43 +57,28 @@
                 <span class="help-block">{{ trans('cruds.benefit.fields.picture_helper') }}</span>
             </div>
             <div class="form-group">
-                <label>{{ trans('cruds.benefit.fields.status') }}</label>
-                <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status" id="status">
-                    <option value disabled {{ old('status', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Benefit::STATUS_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('status', $benefit->status) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('status'))
+                <label for="start_date">{{ trans('cruds.benefit.fields.start_date') }}</label>
+                <input class="form-control date {{ $errors->has('start_date') ? 'is-invalid' : '' }}" type="text" name="start_date" id="start_date" value="{{ old('start_date', $benefit->start_date) }}">
+                @if($errors->has('start_date'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('status') }}
+                        {{ $errors->first('start_date') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.benefit.fields.status_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.benefit.fields.start_date_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="start">{{ trans('cruds.benefit.fields.start') }}</label>
-                <input class="form-control date {{ $errors->has('start') ? 'is-invalid' : '' }}" type="text" name="start" id="start" value="{{ old('start', $benefit->start) }}">
-                @if($errors->has('start'))
+                <label for="end_date">{{ trans('cruds.benefit.fields.end_date') }}</label>
+                <input class="form-control date {{ $errors->has('end_date') ? 'is-invalid' : '' }}" type="text" name="end_date" id="end_date" value="{{ old('end_date', $benefit->end_date) }}">
+                @if($errors->has('end_date'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('start') }}
+                        {{ $errors->first('end_date') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.benefit.fields.start_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.benefit.fields.end_date_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="end">{{ trans('cruds.benefit.fields.end') }}</label>
-                <input class="form-control date {{ $errors->has('end') ? 'is-invalid' : '' }}" type="text" name="end" id="end" value="{{ old('end', $benefit->end) }}">
-                @if($errors->has('end'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('end') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.benefit.fields.end_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="category_id">{{ trans('cruds.benefit.fields.category') }}</label>
-                <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id" required>
+                <label for="category_id">{{ trans('cruds.benefit.fields.category') }}</label>
+                <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
                     @foreach($categories as $id => $entry)
                         <option value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $benefit->category->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
@@ -99,6 +89,38 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.benefit.fields.category_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="variants">{{ trans('cruds.benefit.fields.variant') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('variants') ? 'is-invalid' : '' }}" name="variants[]" id="variants" multiple>
+                    @foreach($variants as $id => $variant)
+                        <option value="{{ $id }}" {{ (in_array($id, old('variants', [])) || $benefit->variants->contains($id)) ? 'selected' : '' }}>{{ $variant }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('variants'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('variants') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.benefit.fields.variant_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="benefit_company_id">{{ trans('cruds.benefit.fields.benefit_company') }}</label>
+                <select class="form-control select2 {{ $errors->has('benefit_company') ? 'is-invalid' : '' }}" name="benefit_company_id" id="benefit_company_id">
+                    @foreach($benefit_companies as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('benefit_company_id') ? old('benefit_company_id') : $benefit->benefit_company->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('benefit_company'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('benefit_company') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.benefit.fields.benefit_company_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
@@ -117,7 +139,7 @@
 <script>
     Dropzone.options.pictureDropzone = {
     url: '{{ route('admin.benefits.storeMedia') }}',
-    maxFilesize: 2, // MB
+    maxFilesize: 5, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
     maxFiles: 1,
     addRemoveLinks: true,
@@ -125,7 +147,7 @@
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     params: {
-      size: 2,
+      size: 5,
       width: 4096,
       height: 4096
     },

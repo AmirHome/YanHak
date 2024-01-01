@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyEmployeeRequest;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
-use App\Models\Benefit;
+use App\Models\BenefitPackage;
+use App\Models\BenefitVariant;
 use App\Models\Employee;
 use Gate;
 use Illuminate\Http\Request;
@@ -17,14 +19,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class EmployeeController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, CsvImportTrait;
 
     public function index(Request $request)
     {
         abort_if(Gate::denies('employee_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Employee::with(['benefits', 'team'])->select(sprintf('%s.*', (new Employee)->table));
+            $query = Employee::with(['team', 'benfitvariants', 'benefit_packages'])->select(sprintf('%s.*', (new Employee)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -45,43 +47,10 @@ class EmployeeController extends Controller
                 ));
             });
 
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
-            $table->editColumn('identity', function ($row) {
-                return $row->identity ? $row->identity : '';
+            $table->addColumn('team_name', function ($row) {
+                return $row->team ? $row->team->name : '';
             });
 
-            $table->editColumn('mobile', function ($row) {
-                return $row->mobile ? $row->mobile : '';
-            });
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
-            });
-            $table->editColumn('family', function ($row) {
-                return $row->family ? $row->family : '';
-            });
-            $table->editColumn('gender', function ($row) {
-                return $row->gender ? Employee::GENDER_SELECT[$row->gender] : '';
-            });
-            $table->editColumn('job_title', function ($row) {
-                return $row->job_title ? $row->job_title : '';
-            });
-            $table->editColumn('department', function ($row) {
-                return $row->department ? $row->department : '';
-            });
-            $table->editColumn('yearly_credit', function ($row) {
-                return $row->yearly_credit ? $row->yearly_credit : '';
-            });
-            $table->editColumn('email', function ($row) {
-                return $row->email ? $row->email : '';
-            });
-            $table->editColumn('phone', function ($row) {
-                return $row->phone ? $row->phone : '';
-            });
-            $table->editColumn('status', function ($row) {
-                return $row->status ? Employee::STATUS_SELECT[$row->status] : '';
-            });
             $table->editColumn('picture', function ($row) {
                 if ($photo = $row->picture) {
                     return sprintf(
@@ -93,16 +62,42 @@ class EmployeeController extends Controller
 
                 return '';
             });
-            $table->editColumn('benefit', function ($row) {
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('sur_name', function ($row) {
+                return $row->sur_name ? $row->sur_name : '';
+            });
+            $table->editColumn('working_type', function ($row) {
+                return $row->working_type ? Employee::WORKING_TYPE_SELECT[$row->working_type] : '';
+            });
+            $table->editColumn('job_title', function ($row) {
+                return $row->job_title ? $row->job_title : '';
+            });
+            $table->editColumn('department', function ($row) {
+                return $row->department ? $row->department : '';
+            });
+            $table->editColumn('yearly_credit', function ($row) {
+                return $row->yearly_credit ? $row->yearly_credit : '';
+            });
+            $table->editColumn('benfitvariant', function ($row) {
                 $labels = [];
-                foreach ($row->benefits as $benefit) {
-                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $benefit->title);
+                foreach ($row->benfitvariants as $benfitvariant) {
+                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $benfitvariant->name);
+                }
+
+                return implode(' ', $labels);
+            });
+            $table->editColumn('benefit_packages', function ($row) {
+                $labels = [];
+                foreach ($row->benefit_packages as $benefit_package) {
+                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $benefit_package->title);
                 }
 
                 return implode(' ', $labels);
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'picture', 'benefit']);
+            $table->rawColumns(['actions', 'placeholder', 'team', 'picture', 'benfitvariant', 'benefit_packages']);
 
             return $table->make(true);
         }
@@ -114,15 +109,18 @@ class EmployeeController extends Controller
     {
         abort_if(Gate::denies('employee_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $benefits = Benefit::pluck('title', 'id');
+        $benfitvariants = BenefitVariant::pluck('name', 'id');
 
-        return view('admin.employees.create', compact('benefits'));
+        $benefit_packages = BenefitPackage::pluck('title', 'id');
+
+        return view('admin.employees.create', compact('benefit_packages', 'benfitvariants'));
     }
 
     public function store(StoreEmployeeRequest $request)
     {
         $employee = Employee::create($request->all());
-        $employee->benefits()->sync($request->input('benefits', []));
+        $employee->benfitvariants()->sync($request->input('benfitvariants', []));
+        $employee->benefit_packages()->sync($request->input('benefit_packages', []));
         if ($request->input('picture', false)) {
             $employee->addMedia(storage_path('tmp/uploads/' . basename($request->input('picture'))))->toMediaCollection('picture');
         }
@@ -138,17 +136,20 @@ class EmployeeController extends Controller
     {
         abort_if(Gate::denies('employee_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $benefits = Benefit::pluck('title', 'id');
+        $benfitvariants = BenefitVariant::pluck('name', 'id');
 
-        $employee->load('benefits', 'team');
+        $benefit_packages = BenefitPackage::pluck('title', 'id');
 
-        return view('admin.employees.edit', compact('benefits', 'employee'));
+        $employee->load('team', 'benfitvariants', 'benefit_packages');
+
+        return view('admin.employees.edit', compact('benefit_packages', 'benfitvariants', 'employee'));
     }
 
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
         $employee->update($request->all());
-        $employee->benefits()->sync($request->input('benefits', []));
+        $employee->benfitvariants()->sync($request->input('benfitvariants', []));
+        $employee->benefit_packages()->sync($request->input('benefit_packages', []));
         if ($request->input('picture', false)) {
             if (! $employee->picture || $request->input('picture') !== $employee->picture->file_name) {
                 if ($employee->picture) {
@@ -167,7 +168,7 @@ class EmployeeController extends Controller
     {
         abort_if(Gate::denies('employee_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $employee->load('benefits', 'team');
+        $employee->load('team', 'benfitvariants', 'benefit_packages');
 
         return view('admin.employees.show', compact('employee'));
     }

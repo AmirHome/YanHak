@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.benefit-categories.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.benefitCategory.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'BenefitCategory', 'route' => 'admin.benefit-categories.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -25,7 +29,7 @@
                         {{ trans('cruds.benefitCategory.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.benefitCategory.fields.title') }}
+                        {{ trans('cruds.benefitCategory.fields.name') }}
                     </th>
                     <th>
                         &nbsp;
@@ -84,7 +88,7 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'title', name: 'title' },
+{ data: 'name', name: 'name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

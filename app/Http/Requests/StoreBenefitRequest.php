@@ -17,21 +17,30 @@ class StoreBenefitRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => [
+            'name' => [
                 'string',
                 'required',
             ],
-            'start' => [
-                'date_format:' . config('panel.date_format'),
+            'description' => [
+                'string',
                 'nullable',
             ],
-            'end' => [
-                'date_format:' . config('panel.date_format'),
-                'nullable',
-            ],
-            'category_id' => [
+            'status' => [
                 'required',
+            ],
+            'start_date' => [
+                'date_format:' . config('panel.date_format'),
+                'nullable',
+            ],
+            'end_date' => [
+                'date_format:' . config('panel.date_format'),
+                'nullable',
+            ],
+            'variants.*' => [
                 'integer',
+            ],
+            'variants' => [
+                'array',
             ],
         ];
     }

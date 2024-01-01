@@ -25,10 +25,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.benefit.fields.title') }}
+                            {{ trans('cruds.benefit.fields.name') }}
                         </th>
                         <td>
-                            {{ $benefit->title }}
+                            {{ $benefit->name }}
                         </td>
                     </tr>
                     <tr>
@@ -41,10 +41,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.benefit.fields.credit_amount') }}
+                            {{ trans('cruds.benefit.fields.status') }}
                         </th>
                         <td>
-                            {{ $benefit->credit_amount }}
+                            {{ App\Models\Benefit::STATUS_RADIO[$benefit->status] ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -61,26 +61,18 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.benefit.fields.status') }}
+                            {{ trans('cruds.benefit.fields.start_date') }}
                         </th>
                         <td>
-                            {{ App\Models\Benefit::STATUS_SELECT[$benefit->status] ?? '' }}
+                            {{ $benefit->start_date }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.benefit.fields.start') }}
+                            {{ trans('cruds.benefit.fields.end_date') }}
                         </th>
                         <td>
-                            {{ $benefit->start }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.benefit.fields.end') }}
-                        </th>
-                        <td>
-                            {{ $benefit->end }}
+                            {{ $benefit->end_date }}
                         </td>
                     </tr>
                     <tr>
@@ -88,7 +80,25 @@
                             {{ trans('cruds.benefit.fields.category') }}
                         </th>
                         <td>
-                            {{ $benefit->category->title ?? '' }}
+                            {{ $benefit->category->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.benefit.fields.variant') }}
+                        </th>
+                        <td>
+                            @foreach($benefit->variants as $key => $variant)
+                                <span class="label label-info">{{ $variant->name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.benefit.fields.benefit_company') }}
+                        </th>
+                        <td>
+                            {{ $benefit->benefit_company->name ?? '' }}
                         </td>
                     </tr>
                 </tbody>
@@ -108,22 +118,14 @@
     </div>
     <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
         <li class="nav-item">
-            <a class="nav-link" href="#benefit_variants" role="tab" data-toggle="tab">
-                {{ trans('cruds.variant.title') }}
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#benefit_employees" role="tab" data-toggle="tab">
-                {{ trans('cruds.employee.title') }}
+            <a class="nav-link" href="#benefit_benefit_variants" role="tab" data-toggle="tab">
+                {{ trans('cruds.benefitVariant.title') }}
             </a>
         </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="benefit_variants">
-            @includeIf('admin.benefits.relationships.benefitVariants', ['variants' => $benefit->benefitVariants])
-        </div>
-        <div class="tab-pane" role="tabpanel" id="benefit_employees">
-            @includeIf('admin.benefits.relationships.benefitEmployees', ['employees' => $benefit->benefitEmployees])
+        <div class="tab-pane" role="tabpanel" id="benefit_benefit_variants">
+            @includeIf('admin.benefits.relationships.benefitBenefitVariants', ['benefitVariants' => $benefit->benefitBenefitVariants])
         </div>
     </div>
 </div>

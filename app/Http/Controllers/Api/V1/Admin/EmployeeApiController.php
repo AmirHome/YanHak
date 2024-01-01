@@ -20,13 +20,14 @@ class EmployeeApiController extends Controller
     {
         abort_if(Gate::denies('employee_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new EmployeeResource(Employee::with(['benefits', 'team'])->get());
+        return new EmployeeResource(Employee::with(['team', 'benfitvariants', 'benefit_packages'])->get());
     }
 
     public function store(StoreEmployeeRequest $request)
     {
         $employee = Employee::create($request->all());
-        $employee->benefits()->sync($request->input('benefits', []));
+        $employee->benfitvariants()->sync($request->input('benfitvariants', []));
+        $employee->benefit_packages()->sync($request->input('benefit_packages', []));
         if ($request->input('picture', false)) {
             $employee->addMedia(storage_path('tmp/uploads/' . basename($request->input('picture'))))->toMediaCollection('picture');
         }
@@ -40,13 +41,14 @@ class EmployeeApiController extends Controller
     {
         abort_if(Gate::denies('employee_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new EmployeeResource($employee->load(['benefits', 'team']));
+        return new EmployeeResource($employee->load(['team', 'benfitvariants', 'benefit_packages']));
     }
 
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
         $employee->update($request->all());
-        $employee->benefits()->sync($request->input('benefits', []));
+        $employee->benfitvariants()->sync($request->input('benfitvariants', []));
+        $employee->benefit_packages()->sync($request->input('benefit_packages', []));
         if ($request->input('picture', false)) {
             if (! $employee->picture || $request->input('picture') !== $employee->picture->file_name) {
                 if ($employee->picture) {

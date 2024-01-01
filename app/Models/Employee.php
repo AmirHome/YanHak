@@ -21,14 +21,9 @@ class Employee extends Model implements HasMedia
         'picture',
     ];
 
-    public const GENDER_SELECT = [
-        '0' => 'Female',
-        '1' => 'Male',
-    ];
-
-    public const STATUS_SELECT = [
-        '0' => 'Passive',
-        '1' => 'Active',
+    public const STATUS_RADIO = [
+        'Active'  => 'Active',
+        'Passive' => 'Passive',
     ];
 
     protected $dates = [
@@ -38,23 +33,46 @@ class Employee extends Model implements HasMedia
         'deleted_at',
     ];
 
-    protected $fillable = [
-        'identity',
-        'birthday',
-        'mobile',
+    public static $searchable = [
         'name',
-        'family',
-        'gender',
+        'sur_name',
+        'personel',
+        'identity_number',
+    ];
+
+    public const GENDER_SELECT = [
+        'Male'   => 'Male',
+        'Female' => 'Female',
+        'Other'  => 'Other',
+    ];
+
+    public const WORKING_TYPE_SELECT = [
+        'FullTime'   => 'Full Time',
+        'Intern'     => 'Intern',
+        'PartTime'   => 'Part Time',
+        'Freelancer' => 'Freelancer',
+        'Contractor' => 'Contractor',
+    ];
+
+    protected $fillable = [
+        'team_id',
+        'name',
+        'sur_name',
+        'personel',
+        'identity_number',
+        'working_type',
         'job_title',
         'department',
         'yearly_credit',
-        'email',
+        'mobile_phone',
         'phone',
+        'email',
+        'birthday',
+        'gender',
         'status',
         'created_at',
         'updated_at',
         'deleted_at',
-        'team_id',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -68,14 +86,9 @@ class Employee extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function getBirthdayAttribute($value)
+    public function team()
     {
-        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
-    }
-
-    public function setBirthdayAttribute($value)
-    {
-        $this->attributes['birthday'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+        return $this->belongsTo(Team::class, 'team_id');
     }
 
     public function getPictureAttribute()
@@ -90,13 +103,23 @@ class Employee extends Model implements HasMedia
         return $file;
     }
 
-    public function benefits()
+    public function getBirthdayAttribute($value)
     {
-        return $this->belongsToMany(Benefit::class);
+        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function team()
+    public function setBirthdayAttribute($value)
     {
-        return $this->belongsTo(Team::class, 'team_id');
+        $this->attributes['birthday'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+    }
+
+    public function benfitvariants()
+    {
+        return $this->belongsToMany(BenefitVariant::class);
+    }
+
+    public function benefit_packages()
+    {
+        return $this->belongsToMany(BenefitPackage::class);
     }
 }

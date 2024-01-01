@@ -10,7 +10,7 @@ class CreateBenefitCategoriesTable extends Migration
     {
         Schema::create('benefit_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
+            $table->string('name');
             $table->timestamps();
         });
     }

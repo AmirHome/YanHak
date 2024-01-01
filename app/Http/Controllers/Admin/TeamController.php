@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyTeamRequest;
 use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
-use App\Models\Country;
 use App\Models\Team;
 use Gate;
 use Illuminate\Http\Request;
@@ -17,14 +17,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TeamController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, CsvImportTrait;
 
     public function index(Request $request)
     {
         abort_if(Gate::denies('team_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Team::with(['country', 'owner'])->select(sprintf('%s.*', (new Team)->table));
+            $query = Team::query()->select(sprintf('%s.*', (new Team)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -48,26 +48,8 @@ class TeamController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
-            $table->editColumn('tax_no', function ($row) {
-                return $row->tax_no ? $row->tax_no : '';
-            });
-            $table->editColumn('tax_office', function ($row) {
-                return $row->tax_office ? $row->tax_office : '';
-            });
-            $table->editColumn('website', function ($row) {
-                return $row->website ? $row->website : '';
-            });
-            $table->editColumn('address', function ($row) {
-                return $row->address ? $row->address : '';
-            });
-            $table->editColumn('phone', function ($row) {
-                return $row->phone ? $row->phone : '';
-            });
-            $table->editColumn('email', function ($row) {
-                return $row->email ? $row->email : '';
-            });
-            $table->editColumn('primary_contact', function ($row) {
-                return $row->primary_contact ? $row->primary_contact : '';
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
             });
             $table->editColumn('logo', function ($row) {
                 if ($photo = $row->logo) {
@@ -80,18 +62,20 @@ class TeamController extends Controller
 
                 return '';
             });
-            $table->addColumn('country_name', function ($row) {
-                return $row->country ? $row->country->name : '';
+            $table->editColumn('web_site', function ($row) {
+                return $row->web_site ? $row->web_site : '';
+            });
+            $table->editColumn('primary_contact', function ($row) {
+                return $row->primary_contact ? $row->primary_contact : '';
+            });
+            $table->editColumn('email', function ($row) {
+                return $row->email ? $row->email : '';
+            });
+            $table->editColumn('country', function ($row) {
+                return $row->country ? $row->country : '';
             });
 
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
-            });
-            $table->addColumn('owner_name', function ($row) {
-                return $row->owner ? $row->owner->name : '';
-            });
-
-            $table->rawColumns(['actions', 'placeholder', 'logo', 'country', 'owner']);
+            $table->rawColumns(['actions', 'placeholder', 'logo']);
 
             return $table->make(true);
         }
@@ -103,9 +87,7 @@ class TeamController extends Controller
     {
         abort_if(Gate::denies('team_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.teams.create', compact('countries'));
+        return view('admin.teams.create');
     }
 
     public function store(StoreTeamRequest $request)
@@ -129,11 +111,7 @@ class TeamController extends Controller
     {
         abort_if(Gate::denies('team_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $countries = Country::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $team->load('country', 'owner');
-
-        return view('admin.teams.edit', compact('countries', 'team'));
+        return view('admin.teams.edit', compact('team'));
     }
 
     public function update(UpdateTeamRequest $request, Team $team)
@@ -157,8 +135,6 @@ class TeamController extends Controller
     public function show(Team $team)
     {
         abort_if(Gate::denies('team_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $team->load('country', 'owner');
 
         return view('admin.teams.show', compact('team'));
     }

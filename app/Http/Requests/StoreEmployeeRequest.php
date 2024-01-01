@@ -17,27 +17,21 @@ class StoreEmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            'identity' => [
-                'nullable',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
-            ],
-            'birthday' => [
-                'date_format:' . config('panel.date_format'),
-                'nullable',
-            ],
-            'mobile' => [
-                'string',
-                'nullable',
-            ],
             'name' => [
                 'string',
                 'required',
             ],
-            'family' => [
+            'sur_name' => [
                 'string',
                 'required',
+            ],
+            'personel' => [
+                'string',
+                'nullable',
+            ],
+            'identity_number' => [
+                'string',
+                'nullable',
             ],
             'job_title' => [
                 'string',
@@ -47,19 +41,32 @@ class StoreEmployeeRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'email' => [
+            'mobile_phone' => [
                 'string',
+                'min:8',
+                'max:15',
                 'nullable',
             ],
             'phone' => [
                 'string',
+                'min:10',
+                'max:17',
                 'nullable',
             ],
-            'benefits.*' => [
+            'birthday' => [
+                'date_format:' . config('panel.date_format'),
+                'nullable',
+            ],
+            'benfitvariants.*' => [
                 'integer',
             ],
-            'benefits' => [
-                'required',
+            'benfitvariants' => [
+                'array',
+            ],
+            'benefit_packages.*' => [
+                'integer',
+            ],
+            'benefit_packages' => [
                 'array',
             ],
         ];

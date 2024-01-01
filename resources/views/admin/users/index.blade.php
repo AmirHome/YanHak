@@ -38,15 +38,6 @@
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.phone') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.picture') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.job_title') }}
-                        </th>
-                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -73,19 +64,6 @@
                                 @foreach($user->roles as $key => $item)
                                     <span class="badge badge-info">{{ $item->title }}</span>
                                 @endforeach
-                            </td>
-                            <td>
-                                {{ $user->phone ?? '' }}
-                            </td>
-                            <td>
-                                @if($user->picture)
-                                    <a href="{{ $user->picture->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $user->picture->getUrl('thumb') }}">
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                {{ $user->job_title ?? '' }}
                             </td>
                             <td>
                                 @can('user_show')

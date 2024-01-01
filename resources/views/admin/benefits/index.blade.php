@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.benefits.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.benefit.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'Benefit', 'route' => 'admin.benefits.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -25,28 +29,31 @@
                         {{ trans('cruds.benefit.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.benefit.fields.title') }}
+                        {{ trans('cruds.benefit.fields.name') }}
                     </th>
                     <th>
                         {{ trans('cruds.benefit.fields.description') }}
                     </th>
                     <th>
-                        {{ trans('cruds.benefit.fields.credit_amount') }}
+                        {{ trans('cruds.benefit.fields.status') }}
                     </th>
                     <th>
                         {{ trans('cruds.benefit.fields.picture') }}
                     </th>
                     <th>
-                        {{ trans('cruds.benefit.fields.status') }}
+                        {{ trans('cruds.benefit.fields.start_date') }}
                     </th>
                     <th>
-                        {{ trans('cruds.benefit.fields.start') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.benefit.fields.end') }}
+                        {{ trans('cruds.benefit.fields.end_date') }}
                     </th>
                     <th>
                         {{ trans('cruds.benefit.fields.category') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.benefit.fields.variant') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.benefit.fields.benefit_company') }}
                     </th>
                     <th>
                         &nbsp;
@@ -105,14 +112,15 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'title', name: 'title' },
+{ data: 'name', name: 'name' },
 { data: 'description', name: 'description' },
-{ data: 'credit_amount', name: 'credit_amount' },
-{ data: 'picture', name: 'picture', sortable: false, searchable: false },
 { data: 'status', name: 'status' },
-{ data: 'start', name: 'start' },
-{ data: 'end', name: 'end' },
-{ data: 'category_title', name: 'category.title' },
+{ data: 'picture', name: 'picture', sortable: false, searchable: false },
+{ data: 'start_date', name: 'start_date' },
+{ data: 'end_date', name: 'end_date' },
+{ data: 'category_name', name: 'category.name' },
+{ data: 'variant', name: 'variants.name' },
+{ data: 'benefit_company_name', name: 'benefit_company.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

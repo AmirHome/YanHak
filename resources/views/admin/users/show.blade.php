@@ -57,34 +57,6 @@
                             @endforeach
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.phone') }}
-                        </th>
-                        <td>
-                            {{ $user->phone }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.picture') }}
-                        </th>
-                        <td>
-                            @if($user->picture)
-                                <a href="{{ $user->picture->getUrl() }}" target="_blank" style="display: inline-block">
-                                    <img src="{{ $user->picture->getUrl('thumb') }}">
-                                </a>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.job_title') }}
-                        </th>
-                        <td>
-                            {{ $user->job_title }}
-                        </td>
-                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
@@ -96,6 +68,22 @@
     </div>
 </div>
 
-
+<div class="card">
+    <div class="card-header">
+        {{ trans('global.relatedData') }}
+    </div>
+    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="#user_user_alerts" role="tab" data-toggle="tab">
+                {{ trans('cruds.userAlert.title') }}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane" role="tabpanel" id="user_user_alerts">
+            @includeIf('admin.users.relationships.userUserAlerts', ['userAlerts' => $user->userUserAlerts])
+        </div>
+    </div>
+</div>
 
 @endsection

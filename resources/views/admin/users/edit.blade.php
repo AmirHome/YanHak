@@ -59,37 +59,6 @@
                 <span class="help-block">{{ trans('cruds.user.fields.roles_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="phone">{{ trans('cruds.user.fields.phone') }}</label>
-                <input class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone" id="phone" value="{{ old('phone', $user->phone) }}">
-                @if($errors->has('phone'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('phone') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.user.fields.phone_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="picture">{{ trans('cruds.user.fields.picture') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('picture') ? 'is-invalid' : '' }}" id="picture-dropzone">
-                </div>
-                @if($errors->has('picture'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('picture') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.user.fields.picture_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="job_title">{{ trans('cruds.user.fields.job_title') }}</label>
-                <input class="form-control {{ $errors->has('job_title') ? 'is-invalid' : '' }}" type="text" name="job_title" id="job_title" value="{{ old('job_title', $user->job_title) }}">
-                @if($errors->has('job_title'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('job_title') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.user.fields.job_title_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="team_id">{{ trans('cruds.user.fields.team') }}</label>
                 <select class="form-control select2 {{ $errors->has('team') ? 'is-invalid' : '' }}" name="team_id" id="team_id">
                     @foreach($teams as $id => $entry)
@@ -114,62 +83,4 @@
 
 
 
-@endsection
-
-@section('scripts')
-<script>
-    Dropzone.options.pictureDropzone = {
-    url: '{{ route('admin.users.storeMedia') }}',
-    maxFilesize: 2, // MB
-    acceptedFiles: '.jpeg,.jpg,.png,.gif',
-    maxFiles: 1,
-    addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    params: {
-      size: 2,
-      width: 4096,
-      height: 4096
-    },
-    success: function (file, response) {
-      $('form').find('input[name="picture"]').remove()
-      $('form').append('<input type="hidden" name="picture" value="' + response.name + '">')
-    },
-    removedfile: function (file) {
-      file.previewElement.remove()
-      if (file.status !== 'error') {
-        $('form').find('input[name="picture"]').remove()
-        this.options.maxFiles = this.options.maxFiles + 1
-      }
-    },
-    init: function () {
-@if(isset($user) && $user->picture)
-      var file = {!! json_encode($user->picture) !!}
-          this.options.addedfile.call(this, file)
-      this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
-      file.previewElement.classList.add('dz-complete')
-      $('form').append('<input type="hidden" name="picture" value="' + file.file_name + '">')
-      this.options.maxFiles = this.options.maxFiles - 1
-@endif
-    },
-    error: function (file, response) {
-        if ($.type(response) === 'string') {
-            var message = response //dropzone sends it's own error messages in string
-        } else {
-            var message = response.errors.file
-        }
-        file.previewElement.classList.add('dz-error')
-        _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
-        _results = []
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            node = _ref[_i]
-            _results.push(node.textContent = message)
-        }
-
-        return _results
-    }
-}
-
-</script>
 @endsection

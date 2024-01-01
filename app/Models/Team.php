@@ -27,18 +27,20 @@ class Team extends Model implements HasMedia
 
     protected $fillable = [
         'created_at',
-        'updated_at',
-        'tax_no',
-        'tax_office',
-        'website',
-        'address',
-        'phone',
-        'email',
-        'primary_contact',
-        'country_id',
-        'deleted_at',
         'name',
-        'owner_id',
+        'tax_office',
+        'tax_number',
+        'web_site',
+        'primary_contact',
+        'contact_email',
+        'telephone',
+        'email',
+        'address',
+        'zip_code',
+        'city',
+        'country',
+        'updated_at',
+        'deleted_at',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -62,15 +64,5 @@ class Team extends Model implements HasMedia
         }
 
         return $file;
-    }
-
-    public function country()
-    {
-        return $this->belongsTo(Country::class, 'country_id');
-    }
-
-    public function owner()
-    {
-        return $this->belongsTo(User::class, 'owner_id');
     }
 }

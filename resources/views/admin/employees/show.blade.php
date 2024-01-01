@@ -25,26 +25,14 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.employee.fields.identity') }}
+                            {{ trans('cruds.employee.fields.picture') }}
                         </th>
                         <td>
-                            {{ $employee->identity }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.employee.fields.birthday') }}
-                        </th>
-                        <td>
-                            {{ $employee->birthday }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.employee.fields.mobile') }}
-                        </th>
-                        <td>
-                            {{ $employee->mobile }}
+                            @if($employee->picture)
+                                <a href="{{ $employee->picture->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $employee->picture->getUrl('thumb') }}">
+                                </a>
+                            @endif
                         </td>
                     </tr>
                     <tr>
@@ -57,18 +45,34 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.employee.fields.family') }}
+                            {{ trans('cruds.employee.fields.sur_name') }}
                         </th>
                         <td>
-                            {{ $employee->family }}
+                            {{ $employee->sur_name }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.employee.fields.gender') }}
+                            {{ trans('cruds.employee.fields.personel') }}
                         </th>
                         <td>
-                            {{ App\Models\Employee::GENDER_SELECT[$employee->gender] ?? '' }}
+                            {{ $employee->personel }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.employee.fields.identity_number') }}
+                        </th>
+                        <td>
+                            {{ $employee->identity_number }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.employee.fields.working_type') }}
+                        </th>
+                        <td>
+                            {{ App\Models\Employee::WORKING_TYPE_SELECT[$employee->working_type] ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -97,10 +101,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.employee.fields.email') }}
+                            {{ trans('cruds.employee.fields.mobile_phone') }}
                         </th>
                         <td>
-                            {{ $employee->email }}
+                            {{ $employee->mobile_phone }}
                         </td>
                     </tr>
                     <tr>
@@ -113,31 +117,53 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.employee.fields.email') }}
+                        </th>
+                        <td>
+                            {{ $employee->email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.employee.fields.birthday') }}
+                        </th>
+                        <td>
+                            {{ $employee->birthday }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.employee.fields.gender') }}
+                        </th>
+                        <td>
+                            {{ App\Models\Employee::GENDER_SELECT[$employee->gender] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.employee.fields.status') }}
                         </th>
                         <td>
-                            {{ App\Models\Employee::STATUS_SELECT[$employee->status] ?? '' }}
+                            {{ App\Models\Employee::STATUS_RADIO[$employee->status] ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.employee.fields.picture') }}
+                            {{ trans('cruds.employee.fields.benfitvariant') }}
                         </th>
                         <td>
-                            @if($employee->picture)
-                                <a href="{{ $employee->picture->getUrl() }}" target="_blank" style="display: inline-block">
-                                    <img src="{{ $employee->picture->getUrl('thumb') }}">
-                                </a>
-                            @endif
+                            @foreach($employee->benfitvariants as $key => $benfitvariant)
+                                <span class="label label-info">{{ $benfitvariant->name }}</span>
+                            @endforeach
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.employee.fields.benefit') }}
+                            {{ trans('cruds.employee.fields.benefit_packages') }}
                         </th>
                         <td>
-                            @foreach($employee->benefits as $key => $benefit)
-                                <span class="label label-info">{{ $benefit->title }}</span>
+                            @foreach($employee->benefit_packages as $key => $benefit_packages)
+                                <span class="label label-info">{{ $benefit_packages->title }}</span>
                             @endforeach
                         </td>
                     </tr>

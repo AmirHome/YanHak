@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.employees.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.employee.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'Employee', 'route' => 'admin.employees.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -22,25 +26,19 @@
 
                     </th>
                     <th>
-                        {{ trans('cruds.employee.fields.id') }}
+                        {{ trans('cruds.employee.fields.team') }}
                     </th>
                     <th>
-                        {{ trans('cruds.employee.fields.identity') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.employee.fields.birthday') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.employee.fields.mobile') }}
+                        {{ trans('cruds.employee.fields.picture') }}
                     </th>
                     <th>
                         {{ trans('cruds.employee.fields.name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.employee.fields.family') }}
+                        {{ trans('cruds.employee.fields.sur_name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.employee.fields.gender') }}
+                        {{ trans('cruds.employee.fields.working_type') }}
                     </th>
                     <th>
                         {{ trans('cruds.employee.fields.job_title') }}
@@ -52,19 +50,10 @@
                         {{ trans('cruds.employee.fields.yearly_credit') }}
                     </th>
                     <th>
-                        {{ trans('cruds.employee.fields.email') }}
+                        {{ trans('cruds.employee.fields.benfitvariant') }}
                     </th>
                     <th>
-                        {{ trans('cruds.employee.fields.phone') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.employee.fields.status') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.employee.fields.picture') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.employee.fields.benefit') }}
+                        {{ trans('cruds.employee.fields.benefit_packages') }}
                     </th>
                     <th>
                         &nbsp;
@@ -122,25 +111,20 @@
     ajax: "{{ route('admin.employees.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'identity', name: 'identity' },
-{ data: 'birthday', name: 'birthday' },
-{ data: 'mobile', name: 'mobile' },
+{ data: 'team_name', name: 'team.name' },
+{ data: 'picture', name: 'picture', sortable: false, searchable: false },
 { data: 'name', name: 'name' },
-{ data: 'family', name: 'family' },
-{ data: 'gender', name: 'gender' },
+{ data: 'sur_name', name: 'sur_name' },
+{ data: 'working_type', name: 'working_type' },
 { data: 'job_title', name: 'job_title' },
 { data: 'department', name: 'department' },
 { data: 'yearly_credit', name: 'yearly_credit' },
-{ data: 'email', name: 'email' },
-{ data: 'phone', name: 'phone' },
-{ data: 'status', name: 'status' },
-{ data: 'picture', name: 'picture', sortable: false, searchable: false },
-{ data: 'benefit', name: 'benefits.title' },
+{ data: 'benfitvariant', name: 'benfitvariants.name' },
+{ data: 'benefit_packages', name: 'benefit_packages.title' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 3, 'desc' ]],
     pageLength: 100,
   };
   let table = $('.datatable-Employee').DataTable(dtOverrideGlobals);

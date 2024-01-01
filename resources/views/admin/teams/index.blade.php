@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.teams.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.team.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'Team', 'route' => 'admin.teams.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -25,37 +29,22 @@
                         {{ trans('cruds.team.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.team.fields.tax_no') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.team.fields.tax_office') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.team.fields.website') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.team.fields.address') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.team.fields.phone') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.team.fields.email') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.team.fields.primary_contact') }}
+                        {{ trans('cruds.team.fields.name') }}
                     </th>
                     <th>
                         {{ trans('cruds.team.fields.logo') }}
                     </th>
                     <th>
+                        {{ trans('cruds.team.fields.web_site') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.team.fields.primary_contact') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.team.fields.email') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.team.fields.country') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.team.fields.name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.team.fields.owner') }}
                     </th>
                     <th>
                         &nbsp;
@@ -114,17 +103,12 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'tax_no', name: 'tax_no' },
-{ data: 'tax_office', name: 'tax_office' },
-{ data: 'website', name: 'website' },
-{ data: 'address', name: 'address' },
-{ data: 'phone', name: 'phone' },
-{ data: 'email', name: 'email' },
-{ data: 'primary_contact', name: 'primary_contact' },
-{ data: 'logo', name: 'logo', sortable: false, searchable: false },
-{ data: 'country_name', name: 'country.name' },
 { data: 'name', name: 'name' },
-{ data: 'owner_name', name: 'owner.name' },
+{ data: 'logo', name: 'logo', sortable: false, searchable: false },
+{ data: 'web_site', name: 'web_site' },
+{ data: 'primary_contact', name: 'primary_contact' },
+{ data: 'email', name: 'email' },
+{ data: 'country', name: 'country' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

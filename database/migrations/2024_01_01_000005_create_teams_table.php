@@ -10,14 +10,18 @@ class CreateTeamsTable extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('tax_no')->nullable();
-            $table->string('tax_office')->nullable();
-            $table->string('website')->nullable();
-            $table->longText('address')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('email')->nullable();
-            $table->string('primary_contact')->nullable();
             $table->string('name')->nullable();
+            $table->string('tax_office')->nullable();
+            $table->string('tax_number')->nullable();
+            $table->string('web_site')->nullable();
+            $table->string('primary_contact')->nullable();
+            $table->string('contact_email')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('address')->nullable();
+            $table->integer('zip_code')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
             $table->timestamps();
         });
     }

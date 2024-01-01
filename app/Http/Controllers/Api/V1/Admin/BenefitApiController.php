@@ -20,13 +20,13 @@ class BenefitApiController extends Controller
     {
         abort_if(Gate::denies('benefit_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new BenefitResource(Benefit::with(['category', 'team'])->get());
+        return new BenefitResource(Benefit::with(['category', 'variants', 'benefit_company', 'team'])->get());
     }
 
     public function store(StoreBenefitRequest $request)
     {
         $benefit = Benefit::create($request->all());
-
+        $benefit->variants()->sync($request->input('variants', []));
         if ($request->input('picture', false)) {
             $benefit->addMedia(storage_path('tmp/uploads/' . basename($request->input('picture'))))->toMediaCollection('picture');
         }
@@ -40,13 +40,13 @@ class BenefitApiController extends Controller
     {
         abort_if(Gate::denies('benefit_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new BenefitResource($benefit->load(['category', 'team']));
+        return new BenefitResource($benefit->load(['category', 'variants', 'benefit_company', 'team']));
     }
 
     public function update(UpdateBenefitRequest $request, Benefit $benefit)
     {
         $benefit->update($request->all());
-
+        $benefit->variants()->sync($request->input('variants', []));
         if ($request->input('picture', false)) {
             if (! $benefit->picture || $request->input('picture') !== $benefit->picture->file_name) {
                 if ($benefit->picture) {

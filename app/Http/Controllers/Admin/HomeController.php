@@ -9,18 +9,18 @@ class HomeController
     public function index()
     {
         $settings1 = [
-            'chart_title'           => 'Users',
+            'chart_title'           => 'Total Employees',
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\User',
-            'group_by_field'        => 'email_verified_at',
+            'model'                 => 'App\Models\Employee',
+            'group_by_field'        => 'birthday',
             'group_by_period'       => 'day',
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
-            'group_by_field_format' => 'd/m/Y H:i:s',
+            'group_by_field_format' => 'd/m/Y',
             'column_class'          => 'col-md-3',
             'entries_number'        => '5',
-            'translation_key'       => 'user',
+            'translation_key'       => 'employee',
         ];
 
         $settings1['total_number'] = 0;
@@ -47,18 +47,18 @@ class HomeController
         }
 
         $settings2 = [
-            'chart_title'           => 'Users Active',
+            'chart_title'           => 'Benefits',
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\User',
-            'group_by_field'        => 'email_verified_at',
+            'model'                 => 'App\Models\Benefit',
+            'group_by_field'        => 'start_date',
             'group_by_period'       => 'day',
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
-            'group_by_field_format' => 'd/m/Y H:i:s',
-            'column_class'          => 'col-md-3',
+            'group_by_field_format' => 'd/m/Y',
+            'column_class'          => 'col-md-4',
             'entries_number'        => '5',
-            'translation_key'       => 'user',
+            'translation_key'       => 'benefit',
         ];
 
         $settings2['total_number'] = 0;
@@ -85,18 +85,18 @@ class HomeController
         }
 
         $settings3 = [
-            'chart_title'           => 'Company',
+            'chart_title'           => 'Total Benefit Options',
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\Team',
-            'group_by_field'        => 'created_at',
+            'model'                 => 'App\Models\BenefitVariant',
+            'group_by_field'        => 'start_date',
             'group_by_period'       => 'day',
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
-            'group_by_field_format' => 'd/m/Y H:i:s',
-            'column_class'          => 'col-md-3',
+            'group_by_field_format' => 'd/m/Y',
+            'column_class'          => 'col-md-4',
             'entries_number'        => '5',
-            'translation_key'       => 'team',
+            'translation_key'       => 'benefitVariant',
         ];
 
         $settings3['total_number'] = 0;
@@ -123,18 +123,18 @@ class HomeController
         }
 
         $settings4 = [
-            'chart_title'           => 'Benefit',
+            'chart_title'           => 'Benefit Packages',
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\Benefit',
-            'group_by_field'        => 'start',
+            'model'                 => 'App\Models\BenefitPackage',
+            'group_by_field'        => 'created_at',
             'group_by_period'       => 'day',
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
-            'group_by_field_format' => 'd/m/Y',
-            'column_class'          => 'col-md-3',
+            'group_by_field_format' => 'd/m/Y H:i:s',
+            'column_class'          => 'col-md-4',
             'entries_number'        => '5',
-            'translation_key'       => 'benefit',
+            'translation_key'       => 'benefitPackage',
         ];
 
         $settings4['total_number'] = 0;
@@ -161,18 +161,18 @@ class HomeController
         }
 
         $settings5 = [
-            'chart_title'           => 'Benefit Category',
+            'chart_title'           => 'Total Benfit Company',
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\BenefitCategory',
-            'group_by_field'        => 'created_at',
+            'model'                 => 'App\Models\BenefitCompany',
+            'group_by_field'        => 'register_date',
             'group_by_period'       => 'day',
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
-            'group_by_field_format' => 'd/m/Y H:i:s',
-            'column_class'          => 'col-md-3',
+            'group_by_field_format' => 'd/m/Y',
+            'column_class'          => 'col-md-4',
             'entries_number'        => '5',
-            'translation_key'       => 'benefitCategory',
+            'translation_key'       => 'benefitCompany',
         ];
 
         $settings5['total_number'] = 0;
@@ -199,16 +199,17 @@ class HomeController
         }
 
         $settings6 = [
-            'chart_title'           => 'Employee',
+            'chart_title'           => 'Avaiable Employee Credits',
             'chart_type'            => 'number_block',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Employee',
             'group_by_field'        => 'birthday',
             'group_by_period'       => 'day',
-            'aggregate_function'    => 'count',
+            'aggregate_function'    => 'sum',
+            'aggregate_field'       => 'yearly_credit',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'd/m/Y',
-            'column_class'          => 'col-md-3',
+            'column_class'          => 'col-md-4',
             'entries_number'        => '5',
             'translation_key'       => 'employee',
         ];
@@ -237,44 +238,39 @@ class HomeController
         }
 
         $settings7 = [
-            'chart_title'           => 'Total Credit Amount',
-            'chart_type'            => 'number_block',
+            'chart_title'           => 'Benefit Categories',
+            'chart_type'            => 'pie',
             'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\Benefit',
-            'group_by_field'        => 'start',
-            'group_by_period'       => 'day',
-            'aggregate_function'    => 'sum',
-            'aggregate_field'       => 'credit_amount',
+            'model'                 => 'App\Models\BenefitCategory',
+            'group_by_field'        => 'created_at',
+            'group_by_period'       => 'month',
+            'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
-            'group_by_field_format' => 'd/m/Y',
-            'column_class'          => 'col-md-3',
+            'group_by_field_format' => 'd/m/Y H:i:s',
+            'column_class'          => 'col-md-6',
             'entries_number'        => '5',
-            'translation_key'       => 'benefit',
+            'translation_key'       => 'benefitCategory',
         ];
 
-        $settings7['total_number'] = 0;
-        if (class_exists($settings7['model'])) {
-            $settings7['total_number'] = $settings7['model']::when(isset($settings7['filter_field']), function ($query) use ($settings7) {
-                if (isset($settings7['filter_days'])) {
-                    return $query->where($settings7['filter_field'], '>=',
-                        now()->subDays($settings7['filter_days'])->format('Y-m-d'));
-                } elseif (isset($settings7['filter_period'])) {
-                    switch ($settings7['filter_period']) {
-                        case 'week': $start = date('Y-m-d', strtotime('last Monday'));
-                        break;
-                        case 'month': $start = date('Y-m') . '-01';
-                        break;
-                        case 'year': $start = date('Y') . '-01-01';
-                        break;
-                    }
-                    if (isset($start)) {
-                        return $query->where($settings7['filter_field'], '>=', $start);
-                    }
-                }
-            })
-                ->{$settings7['aggregate_function'] ?? 'count'}($settings7['aggregate_field'] ?? '*');
-        }
+        $chart7 = new LaravelChart($settings7);
 
-        return view('home', compact('settings1', 'settings2', 'settings3', 'settings4', 'settings5', 'settings6', 'settings7'));
+        $settings8 = [
+            'chart_title'           => 'Changes is Benefit Options',
+            'chart_type'            => 'line',
+            'report_type'           => 'group_by_date',
+            'model'                 => 'App\Models\BenefitPackage',
+            'group_by_field'        => 'created_at',
+            'group_by_period'       => 'week',
+            'aggregate_function'    => 'count',
+            'filter_field'          => 'created_at',
+            'group_by_field_format' => 'd/m/Y H:i:s',
+            'column_class'          => 'col-md-6',
+            'entries_number'        => '5',
+            'translation_key'       => 'benefitPackage',
+        ];
+
+        $chart8 = new LaravelChart($settings8);
+
+        return view('home', compact('chart7', 'chart8', 'settings1', 'settings2', 'settings3', 'settings4', 'settings5', 'settings6'));
     }
 }

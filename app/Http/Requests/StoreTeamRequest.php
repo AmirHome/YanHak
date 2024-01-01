@@ -17,25 +17,19 @@ class StoreTeamRequest extends FormRequest
     public function rules()
     {
         return [
-            'tax_no' => [
-                'nullable',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
+            'name' => [
+                'string',
+                'required',
             ],
             'tax_office' => [
                 'string',
                 'nullable',
             ],
-            'website' => [
+            'tax_number' => [
                 'string',
                 'nullable',
             ],
-            'phone' => [
-                'string',
-                'nullable',
-            ],
-            'email' => [
+            'web_site' => [
                 'string',
                 'nullable',
             ],
@@ -43,9 +37,29 @@ class StoreTeamRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'name' => [
+            'telephone' => [
                 'string',
-                'required',
+                'min:10',
+                'max:15',
+                'nullable',
+            ],
+            'address' => [
+                'string',
+                'nullable',
+            ],
+            'zip_code' => [
+                'nullable',
+                'integer',
+                'min:-2147483648',
+                'max:2147483647',
+            ],
+            'city' => [
+                'string',
+                'nullable',
+            ],
+            'country' => [
+                'string',
+                'nullable',
             ],
         ];
     }

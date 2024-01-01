@@ -9,23 +9,15 @@ use Hash;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable
 {
-    use SoftDeletes, Notifiable, InteractsWithMedia, HasFactory;
+    use Notifiable, HasFactory;
 
     public $table = 'users';
-
-    protected $appends = [
-        'picture',
-    ];
 
     protected $hidden = [
         'remember_token',
@@ -46,8 +38,6 @@ class User extends Authenticatable implements HasMedia
         'password',
         'remember_token',
         'created_at',
-        'phone',
-        'job_title',
         'updated_at',
         'deleted_at',
         'team_id',
@@ -74,10 +64,9 @@ class User extends Authenticatable implements HasMedia
         });
     }
 
-    public function registerMediaConversions(Media $media = null): void
+    public function userUserAlerts()
     {
-        $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 120, 120);
+        return $this->belongsToMany(UserAlert::class);
     }
 
     public function getEmailVerifiedAtAttribute($value)
@@ -105,18 +94,6 @@ class User extends Authenticatable implements HasMedia
     public function roles()
     {
         return $this->belongsToMany(Role::class);
-    }
-
-    public function getPictureAttribute()
-    {
-        $file = $this->getMedia('picture')->last();
-        if ($file) {
-            $file->url       = $file->getUrl();
-            $file->thumbnail = $file->getUrl('thumb');
-            $file->preview   = $file->getUrl('preview');
-        }
-
-        return $file;
     }
 
     public function team()

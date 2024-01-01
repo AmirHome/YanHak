@@ -25,10 +25,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.benefitCategory.fields.title') }}
+                            {{ trans('cruds.benefitCategory.fields.name') }}
                         </th>
                         <td>
-                            {{ $benefitCategory->title }}
+                            {{ $benefitCategory->name }}
                         </td>
                     </tr>
                 </tbody>

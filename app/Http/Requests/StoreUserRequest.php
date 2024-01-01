@@ -35,14 +35,6 @@ class StoreUserRequest extends FormRequest
                 'required',
                 'array',
             ],
-            'phone' => [
-                'string',
-                'nullable',
-            ],
-            'job_title' => [
-                'string',
-                'nullable',
-            ],
         ];
     }
 }

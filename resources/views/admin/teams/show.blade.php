@@ -25,58 +25,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.team.fields.tax_no') }}
+                            {{ trans('cruds.team.fields.name') }}
                         </th>
                         <td>
-                            {{ $team->tax_no }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.team.fields.tax_office') }}
-                        </th>
-                        <td>
-                            {{ $team->tax_office }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.team.fields.website') }}
-                        </th>
-                        <td>
-                            {{ $team->website }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.team.fields.address') }}
-                        </th>
-                        <td>
-                            {{ $team->address }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.team.fields.phone') }}
-                        </th>
-                        <td>
-                            {{ $team->phone }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.team.fields.email') }}
-                        </th>
-                        <td>
-                            {{ $team->email }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.team.fields.primary_contact') }}
-                        </th>
-                        <td>
-                            {{ $team->primary_contact }}
+                            {{ $team->name }}
                         </td>
                     </tr>
                     <tr>
@@ -93,26 +45,90 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.team.fields.tax_office') }}
+                        </th>
+                        <td>
+                            {{ $team->tax_office }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.team.fields.tax_number') }}
+                        </th>
+                        <td>
+                            {{ $team->tax_number }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.team.fields.web_site') }}
+                        </th>
+                        <td>
+                            {{ $team->web_site }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.team.fields.primary_contact') }}
+                        </th>
+                        <td>
+                            {{ $team->primary_contact }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.team.fields.contact_email') }}
+                        </th>
+                        <td>
+                            {{ $team->contact_email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.team.fields.telephone') }}
+                        </th>
+                        <td>
+                            {{ $team->telephone }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.team.fields.email') }}
+                        </th>
+                        <td>
+                            {{ $team->email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.team.fields.address') }}
+                        </th>
+                        <td>
+                            {{ $team->address }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.team.fields.zip_code') }}
+                        </th>
+                        <td>
+                            {{ $team->zip_code }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.team.fields.city') }}
+                        </th>
+                        <td>
+                            {{ $team->city }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.team.fields.country') }}
                         </th>
                         <td>
-                            {{ $team->country->name ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.team.fields.name') }}
-                        </th>
-                        <td>
-                            {{ $team->name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.team.fields.owner') }}
-                        </th>
-                        <td>
-                            {{ $team->owner->name ?? '' }}
+                            {{ $team->country }}
                         </td>
                     </tr>
                 </tbody>

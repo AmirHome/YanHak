@@ -25,28 +25,31 @@
                             {{ trans('cruds.benefit.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.benefit.fields.title') }}
+                            {{ trans('cruds.benefit.fields.name') }}
                         </th>
                         <th>
                             {{ trans('cruds.benefit.fields.description') }}
                         </th>
                         <th>
-                            {{ trans('cruds.benefit.fields.credit_amount') }}
+                            {{ trans('cruds.benefit.fields.status') }}
                         </th>
                         <th>
                             {{ trans('cruds.benefit.fields.picture') }}
                         </th>
                         <th>
-                            {{ trans('cruds.benefit.fields.status') }}
+                            {{ trans('cruds.benefit.fields.start_date') }}
                         </th>
                         <th>
-                            {{ trans('cruds.benefit.fields.start') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.benefit.fields.end') }}
+                            {{ trans('cruds.benefit.fields.end_date') }}
                         </th>
                         <th>
                             {{ trans('cruds.benefit.fields.category') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.benefit.fields.variant') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.benefit.fields.benefit_company') }}
                         </th>
                         <th>
                             &nbsp;
@@ -63,13 +66,13 @@
                                 {{ $benefit->id ?? '' }}
                             </td>
                             <td>
-                                {{ $benefit->title ?? '' }}
+                                {{ $benefit->name ?? '' }}
                             </td>
                             <td>
                                 {{ $benefit->description ?? '' }}
                             </td>
                             <td>
-                                {{ $benefit->credit_amount ?? '' }}
+                                {{ App\Models\Benefit::STATUS_RADIO[$benefit->status] ?? '' }}
                             </td>
                             <td>
                                 @if($benefit->picture)
@@ -79,16 +82,21 @@
                                 @endif
                             </td>
                             <td>
-                                {{ App\Models\Benefit::STATUS_SELECT[$benefit->status] ?? '' }}
+                                {{ $benefit->start_date ?? '' }}
                             </td>
                             <td>
-                                {{ $benefit->start ?? '' }}
+                                {{ $benefit->end_date ?? '' }}
                             </td>
                             <td>
-                                {{ $benefit->end ?? '' }}
+                                {{ $benefit->category->name ?? '' }}
                             </td>
                             <td>
-                                {{ $benefit->category->title ?? '' }}
+                                @foreach($benefit->variants as $key => $item)
+                                    <span class="badge badge-info">{{ $item->name }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                {{ $benefit->benefit_company->name ?? '' }}
                             </td>
                             <td>
                                 @can('benefit_show')

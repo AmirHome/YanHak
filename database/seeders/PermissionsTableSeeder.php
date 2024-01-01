@@ -116,126 +116,130 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 27,
-                'title' => 'benefit_create',
+                'title' => 'benefit_variant_create',
             ],
             [
                 'id'    => 28,
-                'title' => 'benefit_edit',
+                'title' => 'benefit_variant_edit',
             ],
             [
                 'id'    => 29,
-                'title' => 'benefit_show',
+                'title' => 'benefit_variant_show',
             ],
             [
                 'id'    => 30,
-                'title' => 'benefit_delete',
+                'title' => 'benefit_variant_delete',
             ],
             [
                 'id'    => 31,
-                'title' => 'benefit_access',
+                'title' => 'benefit_variant_access',
             ],
             [
                 'id'    => 32,
-                'title' => 'employee_create',
+                'title' => 'benefit_create',
             ],
             [
                 'id'    => 33,
-                'title' => 'employee_edit',
+                'title' => 'benefit_edit',
             ],
             [
                 'id'    => 34,
-                'title' => 'employee_show',
+                'title' => 'benefit_show',
             ],
             [
                 'id'    => 35,
-                'title' => 'employee_delete',
+                'title' => 'benefit_delete',
             ],
             [
                 'id'    => 36,
-                'title' => 'employee_access',
+                'title' => 'benefit_access',
             ],
             [
                 'id'    => 37,
-                'title' => 'country_create',
+                'title' => 'employee_create',
             ],
             [
                 'id'    => 38,
-                'title' => 'country_edit',
+                'title' => 'employee_edit',
             ],
             [
                 'id'    => 39,
-                'title' => 'country_show',
+                'title' => 'employee_show',
             ],
             [
                 'id'    => 40,
-                'title' => 'country_delete',
+                'title' => 'employee_delete',
             ],
             [
                 'id'    => 41,
-                'title' => 'country_access',
+                'title' => 'employee_access',
             ],
             [
                 'id'    => 42,
-                'title' => 'province_create',
+                'title' => 'benefit_list_access',
             ],
             [
                 'id'    => 43,
-                'title' => 'province_edit',
+                'title' => 'benefit_package_create',
             ],
             [
                 'id'    => 44,
-                'title' => 'province_show',
+                'title' => 'benefit_package_edit',
             ],
             [
                 'id'    => 45,
-                'title' => 'province_delete',
+                'title' => 'benefit_package_show',
             ],
             [
                 'id'    => 46,
-                'title' => 'province_access',
+                'title' => 'benefit_package_delete',
             ],
             [
                 'id'    => 47,
-                'title' => 'report_create',
+                'title' => 'benefit_package_access',
             ],
             [
                 'id'    => 48,
-                'title' => 'report_edit',
+                'title' => 'user_alert_create',
             ],
             [
                 'id'    => 49,
-                'title' => 'report_show',
+                'title' => 'user_alert_edit',
             ],
             [
                 'id'    => 50,
-                'title' => 'report_delete',
+                'title' => 'user_alert_show',
             ],
             [
                 'id'    => 51,
-                'title' => 'report_access',
+                'title' => 'user_alert_delete',
             ],
             [
                 'id'    => 52,
-                'title' => 'variant_create',
+                'title' => 'user_alert_access',
             ],
             [
                 'id'    => 53,
-                'title' => 'variant_edit',
+                'title' => 'benefit_company_create',
             ],
             [
                 'id'    => 54,
-                'title' => 'variant_show',
+                'title' => 'benefit_company_edit',
             ],
             [
                 'id'    => 55,
-                'title' => 'variant_delete',
+                'title' => 'benefit_company_show',
             ],
             [
                 'id'    => 56,
-                'title' => 'variant_access',
+                'title' => 'benefit_company_delete',
             ],
             [
                 'id'    => 57,
+                'title' => 'benefit_company_access',
+            ],
+            [
+                'id'    => 58,
                 'title' => 'profile_password_edit',
             ],
         ];

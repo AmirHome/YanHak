@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyBenefitCategoryRequest;
 use App\Http\Requests\StoreBenefitCategoryRequest;
 use App\Http\Requests\UpdateBenefitCategoryRequest;
@@ -14,6 +15,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class BenefitCategoryController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('benefit_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -43,8 +46,8 @@ class BenefitCategoryController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
-            $table->editColumn('title', function ($row) {
-                return $row->title ? $row->title : '';
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
             });
 
             $table->rawColumns(['actions', 'placeholder']);

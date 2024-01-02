@@ -15,7 +15,7 @@ class BenefitCategoryApiController extends Controller
 {
     public function index()
     {
-        abort_if(Gate::denies('benefit_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //abort_if(Gate::denies('benefit_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BenefitCategoryResource(BenefitCategory::with(['team'])->get());
     }

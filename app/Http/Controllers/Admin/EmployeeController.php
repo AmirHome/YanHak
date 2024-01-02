@@ -109,6 +109,7 @@ class EmployeeController extends Controller
     {
         abort_if(Gate::denies('employee_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+
         $benfitvariants = BenefitVariant::pluck('name', 'id');
 
         $benefit_packages = BenefitPackage::pluck('title', 'id');

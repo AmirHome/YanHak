@@ -1,4 +1,7 @@
 <?php
+Route::get('getBenefitCategory', 'Api\V1\Admin\BenefitCategoryApiController@index');
+Route::get('getBenefit/{cat_id}', 'Api\V1\Admin\BenefitApiController@index');
+Route::get('getBenefitVariant/{benefit_id}', 'Api\V1\Admin\BenefitVariantApiController@index');
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
     // Users

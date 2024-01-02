@@ -16,11 +16,14 @@ class BenefitVariantApiController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index($benefitId = null)
     {
-        abort_if(Gate::denies('benefit_variant_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //abort_if(Gate::denies('benefit_variant_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new BenefitVariantResource(BenefitVariant::with(['benefit', 'team'])->get());
+        // if benefitId not null, then filter by benefitId
+        if ($benefitId) {
+            return new BenefitVariantResource(BenefitVariant::with(['benefit', 'team'])->where('benefit_id', $benefitId)->get());
+        }
     }
 
     public function store(StoreBenefitVariantRequest $request)

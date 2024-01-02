@@ -176,6 +176,20 @@
                 <span class="help-block">{{ trans('cruds.employee.fields.status_helper') }}</span>
             </div>
             <div class="form-group">
+                <div>
+                    <label for="benefit-category">Benefit Category:</label>
+                    <select id="benefit-category" class="form-control">
+                        <!-- Options will be populated dynamically with AJAX -->
+                    </select>
+                </div>
+            
+                <div>
+                    <label for="benefit">Benefit:</label>
+                    <select id="benefit" class="form-control">
+                        <!-- Options will be populated dynamically with AJAX -->
+                    </select>
+                </div>
+
                 <label for="benfitvariants">{{ trans('cruds.employee.fields.benfitvariant') }}</label>
                 <div style="padding-bottom: 4px">
                     <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
@@ -279,5 +293,58 @@
     }
 }
 
+        $(document).ready(function () {
+            // Initialize Select2 for both selects
+            $('#benefit-category, #benefit').select2();
+
+            // Fetch initial benefit categories
+            $.ajax({
+                url: "{{url('api/getBenefitCategory')}}",
+                type: 'GET',
+                success: function (data) {
+
+                    // Clear and populate benefit category select
+                    $('#benefit-category').empty().append('<option value="">Select Category</option>');
+                    data.data.forEach(function (benefitCategory) {
+                        $('#benefit-category').append('<option value="' + benefitCategory.id + '">' + benefitCategory.name + '</option>');
+                    });
+                    // Manually trigger the change event for the initially selected option
+                    $('#benefit-category').trigger('change');
+                }
+            });
+
+            // Handle change event for benefit category select
+            $('#benefit-category').on('change', function () {
+                // Fetch benefits based on selected category
+                $.ajax({
+                    url: "{{url('api/getBenefit')}}/" + $(this).val(),
+                    type: 'GET',
+                    success: function (data) {
+                        // Clear and populate benefit select
+                        $('#benefit').empty();
+                        data.data.forEach(function (benefit) {
+                            $('#benefit').append('<option value="' + benefit.id + '">' + benefit.name + '</option>');
+                        });
+                        $('#benefit').trigger('change');
+                    }
+                });
+            });
+
+
+            $('#benefit').on('change', function () {
+                // Fetch benefits based on selected category
+                $.ajax({
+                    url: "{{url('api/getBenefitVariant')}}/" + $(this).val(),
+                    type: 'GET',
+                    success: function (data) {
+                        // Clear and populate benefit select
+                        $('#benfitvariants').empty();
+                        data.data.forEach(function (benefit) {
+                            $('#benfitvariants').append('<option value="' + benefit.id + '">' + benefit.name + '</option>');
+                        });
+                    }
+                });
+            });
+        });
 </script>
 @endsection

@@ -33,13 +33,13 @@
                 <i class="fas fa-fw fa-bars"></i>
             </button>
 
-            <a class="c-header-brand d-lg-none" href="#">{{ trans('panel.site_title') }}</a>
+         <a class="c-header-brand d-lg-none" href="#">{{ trans('panel.site_title') }}</a> 
 
             <button class="c-header-toggler mfs-3 d-md-down-none" type="button" responsive="true">
                 <i class="fas fa-fw fa-bars"></i>
             </button>
 
-            <img src="{{ asset('images/logo.svg') }}" alt="logo"  style="margin-left: 10px;">
+            
 
             <ul class="c-header-nav ml-auto">
                 @if(count(config('panel.available_languages', [])) > 1)

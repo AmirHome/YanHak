@@ -88,11 +88,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="{{ $chart9->options['column_class'] }}">
+                        <div class="{{ $chart9->options['column_class'] }} chart-box">
                             <h3>{!! $chart9->options['chart_title'] !!}</h3>
                             {!! $chart9->renderHtml() !!}
                         </div>
-                        <div class="{{ $chart10->options['column_class'] }}">
+                        <div class="{{ $chart10->options['column_class'] }} chart-box">
                             <h3>{!! $chart10->options['chart_title'] !!}</h3>
                             {!! $chart10->renderHtml() !!}
                         </div>
